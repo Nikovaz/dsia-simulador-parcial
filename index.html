@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Parcial & Guía DSIA | IFTS 24</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              dark: '#090d16',
+              card: '#111827',
+              border: '#1f293d',
+              accent: '#00d2ff',
+              emerald: '#10b981',
+              amber: '#f59e0b',
+              rose: '#f43f5e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #090d16;
+      color: #f1f5f9;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(0, 210, 255, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.06) 0px, transparent 50%);
+      background-attachment: fixed;
+    }
+    .glass-panel {
+      background: rgba(17, 24, 39, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans antialiased text-slate-100">
+
+  <!-- TOP HEADER -->
+  <header class="border-b border-slate-800 bg-slate-950/80 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-emerald-500 flex items-center justify-center font-extrabold text-slate-950 shadow-lg shadow-cyan-500/20 text-lg">
+          24
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-cyan-400 font-mono">IFTS N° 24 · CABA</span>
+            <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full border border-slate-700">2° Cuatrimestre</span>
+          </div>
+          <h1 class="text-sm sm:text-base font-extrabold text-white tracking-tight">Desarrollo de Sistemas de IA (DSIA)</h1>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="flex items-center gap-2">
+        <button onclick="shareWhatsApp()" class="flex items-center gap-1.5 text-xs font-semibold bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded-lg transition-all">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          <span class="hidden sm:inline">Compartir con compis</span>
+        </button>
+        <button onclick="copyShareLink()" id="btnCopy" class="flex items-center gap-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-lg transition-all">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          <span id="copyText">Copiar Link</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO BANNER -->
+  <div class="max-w-5xl mx-auto px-4 pt-8 pb-4 w-full">
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden border border-cyan-500/20 shadow-2xl">
+      <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono font-semibold mb-3">
+            <span>⚡ Examen Parcial Oficial</span>
+            <span>·</span>
+            <span>Prof. Valeria Feito</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Simulador Interactivo de Examen</h2>
+          <p class="text-slate-400 text-sm sm:text-base mt-2 max-w-2xl">
+            Preparado a partir de las <strong class="text-cyan-300">20 clases grabadas</strong> y las preguntas explícitas que la profesora confirmó que toma. Incluye justificación pedagógica en cada opción.
+          </p>
+        </div>
+        <div class="flex flex-col sm:flex-row md:flex-col gap-2 shrink-0">
+          <div class="px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+            <span class="text-xs text-slate-400 block font-mono">Formato</span>
+            <span class="text-sm font-bold text-emerald-400">10 Preguntas · 3 Opciones</span>
+          </div>
+          <div class="px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+            <span class="text-xs text-slate-400 block font-mono">Excluidos Oficiales</span>
+            <span class="text-sm font-bold text-rose-400">Sin Redes Ni Grafos</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABS -->
+      <div class="flex border-b border-slate-800 mt-8 gap-4 sm:gap-8 font-semibold text-sm">
+        <button onclick="switchTab('quiz')" id="tabQuiz" class="pb-3 border-b-2 border-cyan-400 text-cyan-300 flex items-center gap-2 transition-all">
+          <span>🎯 Simulador de Examen</span>
+          <span class="bg-cyan-500/20 text-cyan-300 text-xs px-2 py-0.5 rounded-full font-mono">10 Q</span>
+        </button>
+        <button onclick="switchTab('machete')" id="tabMachete" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 transition-all">
+          <span>📚 Machete de Repaso Rápido</span>
+          <span class="bg-slate-800 text-slate-300 text-xs px-2 py-0.5 rounded-full font-mono">Resumen</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT AREA -->
+  <main class="max-w-5xl mx-auto px-4 py-6 w-full flex-1">
+
+    <!-- VIEW 1: QUIZ -->
+    <div id="viewQuiz" class="space-y-6">
+
+      <!-- Progress bar & Score indicator -->
+      <div class="glass-panel p-4 rounded-xl flex items-center justify-between gap-4">
+        <div class="flex-1">
+          <div class="flex justify-between items-center text-xs font-mono text-slate-400 mb-1.5">
+            <span>Progreso del Examen: <strong id="progressText" class="text-white">Pregunta 1 de 10</strong></span>
+            <span>Aciertos: <strong id="scoreCount" class="text-emerald-400">0</strong> / 10</span>
+          </div>
+          <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+            <div id="progressBar" class="bg-gradient-to-r from-cyan-400 to-emerald-400 h-full w-[10%] transition-all duration-300"></div>
+          </div>
+        </div>
+        <button onclick="resetQuiz()" class="text-xs font-mono text-slate-400 hover:text-white px-3 py-1.5 rounded-lg border border-slate-800 hover:border-slate-700 bg-slate-900 transition-all">
+          Reiniciar
+        </button>
+      </div>
+
+      <!-- Question Card Container -->
+      <div id="questionContainer" class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-800">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Final Score Card (Hidden by default) -->
+      <div id="finalScoreCard" class="hidden glass-panel p-8 rounded-2xl border border-emerald-500/30 text-center space-y-6">
+        <div class="w-20 h-20 rounded-full bg-emerald-500/10 border-2 border-emerald-500 flex items-center justify-center mx-auto text-3xl">
+          🏆
+        </div>
+        <div>
+          <h3 class="text-2xl font-bold text-white">¡Examen Completado!</h3>
+          <p id="finalFeedbackMsg" class="text-slate-300 mt-2 max-w-md mx-auto text-sm"></p>
+        </div>
+        <div class="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-slate-900/90 border border-slate-800 text-3xl font-extrabold font-mono text-emerald-400" id="finalScoreNumber">
+          10 / 10
+        </div>
+        <div class="flex justify-center gap-3 pt-2">
+          <button onclick="resetQuiz()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl transition-all shadow-lg shadow-cyan-500/20 text-sm">
+            Volver a Rendir
+          </button>
+          <button onclick="switchTab('machete')" class="bg-slate-800 hover:bg-slate-700 text-white font-semibold px-6 py-2.5 rounded-xl transition-all text-sm">
+            Ver Machete de Repaso
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- VIEW 2: MACHETE DE REPASO -->
+    <div id="viewMachete" class="hidden space-y-6">
+
+      <!-- Cuadro Mágico de Algoritmos -->
+      <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-800">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-bold text-sm">1</div>
+          <h3 class="text-lg font-bold text-white">Cuadro Mágico: Regresión vs. Clasificación vs. Agrupamiento</h3>
+        </div>
+        <p class="text-xs text-slate-400 mb-4 font-mono">
+          🗣️ Citado textualmente por la profesora Valeria Feito en las Clases 7, 21 y 24.
+        </p>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs sm:text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400 font-mono">
+                <th class="py-3 px-3">Algoritmo</th>
+                <th class="py-3 px-3">Tipo de Aprendizaje</th>
+                <th class="py-3 px-3">Naturaleza de Datos</th>
+                <th class="py-3 px-3">Variable Objetivo ($y$)</th>
+                <th class="py-3 px-3">Ejemplo Concreto</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 font-sans">
+              <tr class="hover:bg-slate-900/40">
+                <td class="py-3 px-3 font-bold text-cyan-400">Regresión</td>
+                <td class="py-3 px-3"><span class="bg-cyan-500/10 text-cyan-300 px-2 py-0.5 rounded text-xs">Supervisado</span></td>
+                <td class="py-3 px-3 font-semibold text-emerald-400">Etiquetados</td>
+                <td class="py-3 px-3">Numérica continua (cuantitativa)</td>
+                <td class="py-3 px-3 text-slate-400">Precios de casas, ventas mensuales.</td>
+              </tr>
+              <tr class="hover:bg-slate-900/40">
+                <td class="py-3 px-3 font-bold text-emerald-400">Clasificación</td>
+                <td class="py-3 px-3"><span class="bg-emerald-500/10 text-emerald-300 px-2 py-0.5 rounded text-xs">Supervisado</span></td>
+                <td class="py-3 px-3 font-semibold text-emerald-400">Etiquetados</td>
+                <td class="py-3 px-3">Categórica / Clases discretas (cualitativa)</td>
+                <td class="py-3 px-3 text-slate-400">Spam / No Spam, Diagnóstico benigno/maligno.</td>
+              </tr>
+              <tr class="hover:bg-slate-900/40">
+                <td class="py-3 px-3 font-bold text-amber-400">Agrupamiento (Clustering)</td>
+                <td class="py-3 px-3"><span class="bg-amber-500/10 text-amber-300 px-2 py-0.5 rounded text-xs">No Supervisado</span></td>
+                <td class="py-3 px-3 font-bold text-rose-400">NO Etiquetados</td>
+                <td class="py-3 px-3 text-slate-400 font-mono">Sin target previo (busca similitudes)</td>
+                <td class="py-3 px-3 text-slate-400">Segmentación de clientes por comportamiento (K-Means).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Card: Encoders -->
+        <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-3">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-300 flex items-center justify-center font-bold text-xs">2</span>
+            <h4 class="font-bold text-white text-base">Encoders (Transformación Categórica)</h4>
+          </div>
+          <div class="space-y-2 text-xs sm:text-sm text-slate-300">
+            <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800">
+              <span class="font-bold text-cyan-400 block mb-1">One-Hot Encoder (Sin orden)</span>
+              Se usa para variables nominales donde ninguna categoría vale más que otra (ej. Colores, Rubros). Crea columnas binarias (0 y 1).
+            </div>
+            <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800">
+              <span class="font-bold text-emerald-400 block mb-1">Ordinal Encoder (Con orden)</span>
+              Se usa cuando existe una jerarquía natural o prelación entre los niveles (ej. <em>Bajo &lt; Medio &lt; Alto</em> o <em>Sin Stock &lt; Poco &lt; Óptimo</em>).
+            </div>
+          </div>
+        </div>
+
+        <!-- Card: Procesos de ML -->
+        <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-3">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-bold text-xs">3</span>
+            <h4 class="font-bold text-white text-base">Procesos Fundamentales de Machine Learning</h4>
+          </div>
+          <p class="text-xs text-slate-400">Pregunta fija avisada en Clase 7:</p>
+          <div class="grid grid-cols-3 gap-2 text-center text-xs">
+            <div class="p-2.5 rounded-xl bg-slate-900 border border-cyan-500/30">
+              <span class="font-mono text-cyan-400 block font-bold mb-1">1. Train</span>
+              Aprende patrones de los datos.
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-900 border border-emerald-500/30">
+              <span class="font-mono text-emerald-400 block font-bold mb-1">2. Validación</span>
+              Ajusta hiperparámetros.
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-900 border border-amber-500/30">
+              <span class="font-mono text-amber-400 block font-bold mb-1">3. Test</span>
+              Mide capacidad de generalización.
+            </div>
+          </div>
+        </div>
+
+        <!-- Card: Trampa Python -->
+        <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-3">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center font-bold text-xs">4</span>
+            <h4 class="font-bold text-white text-base">La Pregunta Trampa de Python (Clase 4)</h4>
+          </div>
+          <div class="space-y-2 text-xs font-mono">
+            <div class="flex items-center justify-between p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+              <code class="text-cyan-300">25 / 4</code>
+              <span class="text-emerald-400 font-bold">Devuelve 6.25 (float)</span>
+            </div>
+            <div class="flex items-center justify-between p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+              <code class="text-slate-400">25 // 4 (División entera)</code>
+              <span class="text-slate-300">Devuelve 6 (int)</span>
+            </div>
+            <div class="flex items-center justify-between p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+              <code class="text-slate-400">25 % 4 (Módulo / Resto)</code>
+              <span class="text-slate-300">Devuelve 1 (int)</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-400">En Python 3, el operador de división simple <code>/</code> <strong>siempre devuelve un tipo float</strong>.</p>
+        </div>
+
+        <!-- Card: EDA y Métricas -->
+        <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-3">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-rose-500/20 text-rose-300 flex items-center justify-center font-bold text-xs">5</span>
+            <h4 class="font-bold text-white text-base">EDA, Outliers y Métricas</h4>
+          </div>
+          <ul class="text-xs sm:text-sm text-slate-300 space-y-1.5 list-disc list-inside">
+            <li><strong>Outliers:</strong> Se visualizan principalmente mediante <strong>Boxplots (diagramas de caja)</strong>.</li>
+            <li><strong>Media vs Mediana:</strong> Ante asimetría y outliers, la <strong>Mediana</strong> es la medida representativa por su robustez.</li>
+            <li><strong>MAE vs RMSE:</strong> El <strong>MAE</strong> da el error medio en unidades reales; el <strong>RMSE</strong> penaliza con mayor severidad las equivocaciones grandes al elevar al cuadrado.</li>
+            <li><strong>Overfitting:</strong> Error mínimo en Train pero se dispara en Test (memorización sin generalización).</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-800/80 bg-slate-950/80 py-6 text-center text-xs text-slate-500 font-mono mt-auto">
+    <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <span>IFTS N° 24 · Tecnicatura en Ciencia de Datos e IA · DSIA 2026</span>
+      </div>
+      <div>
+        Desarrollado por <a href="https://github.com/Nikovaz" target="_blank" class="text-cyan-400 hover:underline">Nicolás Galarza Vázquez</a> & Grupo 4 para la cursada
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    const questions = [
+      {
+        id: 1,
+        topic: "Python y Tipos de Datos (Clase 4)",
+        question: "¿Qué tipo de dato devuelve la operación de división simple `25 / 4` en Python?",
+        options: [
+          { text: "Un número entero (int)", correct: false },
+          { text: "Un número de coma flotante (float)", correct: true },
+          { text: "Una cadena de texto (str)", correct: false }
+        ],
+        explanation: "En Python 3, el operador de división simple `/` siempre devuelve un tipo `float` (en este caso `6.25`), incluso si la división fuera exacta (como `4 / 2 = 2.0`). La profesora lo remarcó en vivo como pregunta de examen."
+      },
+      {
+        id: 2,
+        topic: "Procesos Fundamentales de Machine Learning (Clase 7)",
+        question: "¿Cuáles son los tres procesos fundamentales del ciclo de Machine Learning explicados por la docente?",
+        options: [
+          { text: "Ingesta, Limpieza y Visualización de datos", correct: false },
+          { text: "Entrenamiento, Validación y Prueba (Test)", correct: true },
+          { text: "Recolección, Etiquetado y Despliegue en producción", correct: false }
+        ],
+        explanation: "Dicho textualmente por la profesora en la Clase 7: 'Ojo acá que esto es una pregunta de examen: Cuando yo les pregunto cuáles son los procesos fundamentales del Machine Learning, son entrenamiento, validación y prueba'."
+      },
+      {
+        id: 3,
+        topic: "Paradigmas de Aprendizaje (Clase 7 y 24)",
+        question: "¿Qué tipo de aprendizaje utiliza un algoritmo de Agrupamiento (Clustering como K-Means)?",
+        options: [
+          { text: "Aprendizaje Supervisado", correct: false },
+          { text: "Aprendizaje No Supervisado", correct: true },
+          { text: "Aprendizaje por Refuerzo", correct: false }
+        ],
+        explanation: "El agrupamiento es Aprendizaje No Supervisado porque el algoritmo explora los datos y encuentra grupos naturales por similitud sin conocer un resultado ni contar con etiquetas previas."
+      },
+      {
+        id: 4,
+        topic: "Naturaleza de los Datos (Clase 21)",
+        question: "¿Con qué tipo de datos trabaja un algoritmo de Agrupamiento (Clustering) a diferencia de la Regresión y la Clasificación?",
+        options: [
+          { text: "Con datos numéricos obligatoriamente etiquetados", correct: false },
+          { text: "Con datos NO etiquetados (sin variable target o resultado previo)", correct: true },
+          { text: "Únicamente con datos booleanos de verdadero y falso", correct: false }
+        ],
+        explanation: "Citado textualmente en la Clase 21: 'Lo que sí tienen que acordarse porque es pregunta de examen: el tipo de algoritmo que trabaja con datos no etiquetados es el de agrupamiento. Regresión y clasificación trabajan con datos etiquetados'."
+      },
+      {
+        id: 5,
+        topic: "Regresión vs. Clasificación (Clase 16 y 21)",
+        question: "¿Cuál es la diferencia fundamental en la variable objetivo ($y$) entre Regresión y Clasificación?",
+        options: [
+          { text: "Regresión predice valores cuantitativos/numéricos continuos; Clasificación predice etiquetas o clases cualitativas/categóricas", correct: true },
+          { text: "Regresión trabaja sin datos etiquetados y Clasificación trabaja con datos etiquetados", correct: false },
+          { text: "Regresión solo predice números enteros y Clasificación predice probabilidades infinitas", correct: false }
+        ],
+        explanation: "Regresión busca estimar magnitudes continuas (ej. precios, ventas, temperaturas); Clasificación busca asignar pertenencia a categorías discretas (ej. spam / no spam, categorías de clientes)."
+      },
+      {
+        id: 6,
+        topic: "Transformación de Variables (Clase 14)",
+        question: "¿Qué codificador se aplica a variables categóricas cuando existe un orden o jerarquía de prelación natural?",
+        options: [
+          { text: "One-Hot Encoder (get_dummies)", correct: false },
+          { text: "Ordinal Encoder (o Label Encoder ordinal)", correct: true },
+          { text: "StandardScaler", correct: false }
+        ],
+        explanation: "El Ordinal Encoder asigna enteros respetando la escala jerárquica de la variable (ej. Bajo = 1, Medio = 2, Alto = 3). Si no hubiera orden, se debe usar One-Hot Encoding."
+      },
+      {
+        id: 7,
+        topic: "Transformación de Variables (Clase 14)",
+        question: "¿Cuándo es indispensable utilizar `One-Hot Encoding` en lugar de un codificador ordinal?",
+        options: [
+          { text: "Cuando las variables categóricas son nominales sin orden jerárquico (ej. Colores, Rubros)", correct: true },
+          { text: "Cuando la variable categórica ya está expresada en números del 1 al 10", correct: false },
+          { text: "Únicamente cuando se busca reducir la cantidad de columnas del dataset", correct: false }
+        ],
+        explanation: "Si a variables sin orden (como colores) se les asigna 1, 2, 3, el modelo asumirá falsamente una relación matemática de magnitud. El One-Hot Encoding crea variables dummy (0 y 1) independientes."
+      },
+      {
+        id: 8,
+        topic: "Metodología de Validación (Clase 7 y 16)",
+        question: "¿Por qué dividimos los datos en conjunto de Entrenamiento (Train) y Prueba (Test)?",
+        options: [
+          { text: "Para evaluar la capacidad de generalización sobre datos no vistos y evitar el sobreajuste (overfitting)", correct: true },
+          { text: "Para ahorrar memoria RAM reduciendo el volumen de cómputo", correct: false },
+          { text: "Para balancear automáticamente las proporciones de las clases", correct: false }
+        ],
+        explanation: "Un modelo puede memorizar perfectamente los datos de entrenamiento pero fallar por completo con datos reales nuevos. La partición de Test evalúa el rendimiento real frente a lo desconocido."
+      },
+      {
+        id: 9,
+        topic: "Análisis Exploratorio de Datos (EDA) (Clase 10 y 11)",
+        question: "¿Cuál es el gráfico estadístico estándar para detectar valores atípicos (outliers) en una variable continua?",
+        options: [
+          { text: "Gráfico de Torta (Pie Chart)", correct: false },
+          { text: "Diagrama de Caja y Bigotes (Boxplot)", correct: true },
+          { text: "Gráfico de Líneas de tendencia", correct: false }
+        ],
+        explanation: "El Boxplot ilustra visualmente la mediana, los cuartiles Q1 y Q3, el rango intercuartílico (IQR) y destaca como puntos aislados a los valores que escapan a 1.5 veces el IQR (outliers)."
+      },
+      {
+        id: 10,
+        topic: "Medidas de Tendencia Central (Clase 11 y Devolución TP)",
+        question: "Ante una distribución muy asimétrica y con presencia de valores atípicos extremos, ¿qué medida de tendencia central resulta más representativa?",
+        options: [
+          { text: "La Media aritmética", correct: false },
+          { text: "La Mediana", correct: true },
+          { text: "La Varianza", correct: false }
+        ],
+        explanation: "La media se ve fuertemente distorsionada y arrastrada por los valores extremos. La mediana, al ser el valor central que divide la muestra en dos mitades del 50%, es una medida robusta frente a outliers."
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    function renderQuestion() {
+      answered = false;
+      const q = questions[currentQuestionIndex];
+      const container = document.getElementById("questionContainer");
+
+      // Update progress
+      document.getElementById("progressText").innerText = `Pregunta ${currentQuestionIndex + 1} de ${questions.length}`;
+      document.getElementById("progressBar").style.width = `${((currentQuestionIndex + 1) / questions.length) * 100}%`;
+      document.getElementById("scoreCount").innerText = score;
+
+      let html = `
+        <div class="space-y-4">
+          <div class="flex items-center justify-between text-xs font-mono text-cyan-400">
+            <span>TEMA: ${q.topic}</span>
+            <span>PREGUNTA #${q.id}</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white tracking-tight">${q.question}</h3>
+          <div class="space-y-2.5 pt-2">
+      `;
+
+      q.options.forEach((opt, idx) => {
+        const letter = String.fromCharCode(65 + idx);
+        html += `
+          <button onclick="handleAnswer(${idx})" id="opt-${idx}" class="w-full text-left p-4 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 hover:bg-slate-850 transition-all flex items-start gap-3 group">
+            <span class="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 font-mono text-xs flex items-center justify-center shrink-0 group-hover:bg-cyan-500 group-hover:text-slate-950 font-bold transition-all">
+              ${letter}
+            </span>
+            <span class="text-sm text-slate-200 group-hover:text-white pt-0.5">${opt.text}</span>
+          </button>
+        `;
+      });
+
+      html += `
+          </div>
+          <div id="explanationBox" class="hidden p-4 rounded-xl text-xs sm:text-sm mt-4 border transition-all"></div>
+          <div id="nextBtnContainer" class="hidden pt-4 flex justify-end">
+            <button onclick="nextQuestion()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl transition-all shadow-lg shadow-cyan-500/20 text-sm flex items-center gap-2">
+              <span>Siguiente Pregunta</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </button>
+          </div>
+        </div>
+      `;
+
+      container.innerHTML = html;
+    }
+
+    function handleAnswer(selectedIdx) {
+      if (answered) return;
+      answered = true;
+
+      const q = questions[currentQuestionIndex];
+      const isCorrect = q.options[selectedIdx].correct;
+
+      if (isCorrect) {
+        score++;
+        document.getElementById("scoreCount").innerText = score;
+      }
+
+      // Visual styling for options
+      q.options.forEach((opt, idx) => {
+        const btn = document.getElementById(`opt-${idx}`);
+        btn.disabled = true;
+        btn.classList.remove("hover:border-cyan-500/50", "hover:bg-slate-850");
+
+        if (opt.correct) {
+          btn.classList.add("bg-emerald-950/40", "border-emerald-500", "text-emerald-300");
+          btn.querySelector("span:first-child").classList.add("bg-emerald-500", "text-slate-950");
+        } else if (idx === selectedIdx && !opt.correct) {
+          btn.classList.add("bg-rose-950/40", "border-rose-500", "text-rose-300");
+          btn.querySelector("span:first-child").classList.add("bg-rose-500", "text-white");
+        } else {
+          btn.classList.add("opacity-50");
+        }
+      });
+
+      // Show explanation
+      const expBox = document.getElementById("explanationBox");
+      expBox.classList.remove("hidden");
+      if (isCorrect) {
+        expBox.className = "p-4 rounded-xl text-xs sm:text-sm mt-4 border bg-emerald-950/40 border-emerald-500/40 text-emerald-200 block";
+        expBox.innerHTML = `<strong>¡Excelente! Respuesta correcta.</strong><br>${q.explanation}`;
+      } else {
+        expBox.className = "p-4 rounded-xl text-xs sm:text-sm mt-4 border bg-rose-950/40 border-rose-500/40 text-rose-200 block";
+        expBox.innerHTML = `<strong>Respuesta incorrecta.</strong><br>${q.explanation}`;
+      }
+
+      document.getElementById("nextBtnContainer").classList.remove("hidden");
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < questions.length) {
+        renderQuestion();
+      } else {
+        showFinalScore();
+      }
+    }
+
+    function showFinalScore() {
+      document.getElementById("questionContainer").classList.add("hidden");
+      const finalCard = document.getElementById("finalScoreCard");
+      finalCard.classList.remove("hidden");
+
+      document.getElementById("finalScoreNumber").innerText = `${score} / ${questions.length}`;
+
+      let msg = "";
+      if (score === 10) {
+        msg = "¡Puntaje Perfecto! Tenés todos los conceptos clave de la cursada asimilados con precisión quirúrgica. ¡Vas por otro 10 en el parcial!";
+      } else if (score >= 8) {
+        msg = "¡Muy buen desempeño! Dominás la gran mayoría de los conceptos troncales. Pegale una repasada rápida al Machete para pulir esos detalles.";
+      } else if (score >= 6) {
+        msg = "Aprobado, pero con margen de mejora. Te recomendamos repasar especialmente la diferencia entre Encoders y los procesos de Machine Learning.";
+      } else {
+        msg = "Atención: Te conviene leer detenidamente el Machete de Repaso y volver a intentar el simulador antes del examen.";
+      }
+      document.getElementById("finalFeedbackMsg").innerText = msg;
+    }
+
+    function resetQuiz() {
+      currentQuestionIndex = 0;
+      score = 0;
+      document.getElementById("finalScoreCard").classList.add("hidden");
+      document.getElementById("questionContainer").classList.remove("hidden");
+      renderQuestion();
+    }
+
+    function switchTab(tab) {
+      const tabQuiz = document.getElementById("tabQuiz");
+      const tabMachete = document.getElementById("tabMachete");
+      const viewQuiz = document.getElementById("viewQuiz");
+      const viewMachete = document.getElementById("viewMachete");
+
+      if (tab === "quiz") {
+        tabQuiz.className = "pb-3 border-b-2 border-cyan-400 text-cyan-300 flex items-center gap-2 transition-all font-semibold text-sm";
+        tabMachete.className = "pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 transition-all font-semibold text-sm";
+        viewQuiz.classList.remove("hidden");
+        viewMachete.classList.add("hidden");
+      } else {
+        tabMachete.className = "pb-3 border-b-2 border-cyan-400 text-cyan-300 flex items-center gap-2 transition-all font-semibold text-sm";
+        tabQuiz.className = "pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 transition-all font-semibold text-sm";
+        viewMachete.classList.remove("hidden");
+        viewQuiz.classList.add("hidden");
+      }
+    }
+
+    function shareWhatsApp() {
+      const text = encodeURIComponent(
+        "¡Hola! Les comparto el Simulador Interactivo del Parcial de DSIA (IFTS 24 - Prof. Valeria Feito) con las 10 preguntas fijas y el machete de estudio rápido:\n\nhttps://nikovaz.github.io/dsia-simulador-parcial/"
+      );
+      window.open(`https://api.whatsapp.com/send?text=${text}`, "_blank");
+    }
+
+    function copyShareLink() {
+      navigator.clipboard.writeText("https://nikovaz.github.io/dsia-simulador-parcial/").then(() => {
+        const btnText = document.getElementById("copyText");
+        btnText.innerText = "¡Copiado!";
+        setTimeout(() => {
+          btnText.innerText = "Copiar Link";
+        }, 2000);
+      });
+    }
+
+    // Init quiz
+    renderQuestion();
+  </script>
+</body>
+</html>
