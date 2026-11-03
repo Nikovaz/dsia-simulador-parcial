@@ -59,7 +59,7 @@
 </head>
 <body class="min-h-screen flex flex-col font-sans antialiased text-slate-100">
 
-  <!-- TOP HEADER (Sin botones de compartir) -->
+  <!-- TOP HEADER -->
   <header class="border-b border-slate-800 bg-slate-950/80 sticky top-0 z-50 backdrop-blur-md">
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
@@ -80,35 +80,58 @@
     </div>
   </header>
 
+  <!-- AVISO URGENTE: PAUTAS DEL PARCIAL (CLASE DE REPASO) -->
+  <div class="max-w-5xl mx-auto px-4 pt-6 w-full">
+    <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-950/40 via-slate-900 to-rose-950/30 border border-amber-500/30 shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="flex items-start gap-3">
+        <span class="text-2xl mt-0.5">⚠️</span>
+        <div class="text-xs sm:text-sm text-slate-300 space-y-1">
+          <div class="flex items-center gap-2 flex-wrap">
+            <strong class="text-amber-400 font-bold uppercase tracking-wide font-mono">Pautas Exclusivas de la Clase de Repaso (02/11):</strong>
+            <span class="bg-rose-500/20 text-rose-300 text-[11px] px-2 py-0.5 rounded font-mono font-semibold">Miércoles 19:10 hs Puntual</span>
+            <span class="bg-emerald-500/20 text-emerald-300 text-[11px] px-2 py-0.5 rounded font-mono font-semibold">Aprueba con 7/10</span>
+          </div>
+          <p class="text-slate-400 leading-relaxed">
+            1) <strong class="text-white">La Grilla "Tipo Prode":</strong> Es obligatorio pasar las respuestas a la grilla de la derecha con una cruz; si no se pasan, la nota es 0.<br>
+            2) <strong class="text-white">Preguntas Negadas:</strong> Leer con mucha atención porque hay preguntas con afirmaciones negadas (ej. <em>"cuál NO corresponde"</em>).
+          </p>
+        </div>
+      </div>
+      <div class="shrink-0 font-mono text-xs text-right hidden lg:block text-slate-400">
+        1 Solo Tema<br><span class="text-cyan-400">Corrección en el Acto</span>
+      </div>
+    </div>
+  </div>
+
   <!-- HERO BANNER -->
-  <div class="max-w-5xl mx-auto px-4 pt-8 pb-4 w-full">
+  <div class="max-w-5xl mx-auto px-4 pt-4 pb-4 w-full">
     <div class="glass-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden border border-cyan-500/20 shadow-2xl">
       <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
       <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono font-semibold mb-3">
-            <span>⚡ Portal de Estudio para el Parcial</span>
+            <span>⚡ Banco de Preguntas Actualizado</span>
             <span>·</span>
-            <span>IFTS 24</span>
+            <span>Clase de Repaso Incluida</span>
           </div>
           <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Simulador & Repaso Completo de DSIA</h2>
           <p class="text-slate-400 text-sm sm:text-base mt-2 max-w-2xl">
-            Plataforma interactiva con las <strong class="text-cyan-300">10 preguntas fijas de examen</strong> y una guía de estudio exhaustiva con todos los conceptos teóricos y prácticos de la materia.
+            Entrená con el simulador interactivo de <strong class="text-cyan-300">10 preguntas choice</strong> (incluye las preguntas textuales dadas por la docente en el repaso) y repasá con la guía completa de toda la materia.
           </p>
         </div>
         <div class="flex flex-col sm:flex-row md:flex-col gap-2 shrink-0">
           <div class="px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
-            <span class="text-xs text-slate-400 block font-mono">Examen Parcial</span>
-            <span class="text-sm font-bold text-emerald-400">10 Preguntas · Multiple Choice</span>
+            <span class="text-xs text-slate-400 block font-mono">Formato Examen</span>
+            <span class="text-sm font-bold text-emerald-400">10 Preguntas · 3 Opciones</span>
           </div>
           <div class="px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
-            <span class="text-xs text-slate-400 block font-mono">Aclaración Docente</span>
-            <span class="text-sm font-bold text-rose-400">Sin Redes Ni Grafos</span>
+            <span class="text-xs text-slate-400 block font-mono">Confirmado por Feito</span>
+            <span class="text-sm font-bold text-cyan-400">Sin Redes Ni Grafos</span>
           </div>
         </div>
       </div>
 
-      <!-- TABS DE NAVEGACIÓN (3 PESTAÑAS) -->
+      <!-- TABS DE NAVEGACIÓN -->
       <div class="flex border-b border-slate-800 mt-8 gap-4 sm:gap-8 font-semibold text-sm overflow-x-auto">
         <button onclick="switchTab('quiz')" id="tabQuiz" class="pb-3 border-b-2 border-cyan-400 text-cyan-300 flex items-center gap-2 transition-all shrink-0">
           <span>🎯 Simulador de Parcial</span>
@@ -120,7 +143,7 @@
         </button>
         <button onclick="switchTab('completo')" id="tabCompleto" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 transition-all shrink-0">
           <span>📖 Repaso Completo de la Materia</span>
-          <span class="bg-emerald-500/20 text-emerald-300 text-xs px-2 py-0.5 rounded-full font-mono">Todos los Temas</span>
+          <span class="bg-emerald-500/20 text-emerald-300 text-xs px-2 py-0.5 rounded-full font-mono">Guía Total</span>
         </button>
       </div>
     </div>
@@ -161,7 +184,7 @@
           🏆
         </div>
         <div>
-          <h3 class="text-2xl font-bold text-white">¡Examen Completado!</h3>
+          <h3 class="text-2xl font-bold text-white">¡Examen Finalizado!</h3>
           <p id="finalFeedbackMsg" class="text-slate-300 mt-2 max-w-md mx-auto text-sm"></p>
         </div>
         <div class="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-slate-900/90 border border-slate-800 text-3xl font-extrabold font-mono text-emerald-400" id="finalScoreNumber">
@@ -172,7 +195,7 @@
             Volver a Rendir
           </button>
           <button onclick="switchTab('completo')" class="bg-slate-800 hover:bg-slate-700 text-white font-semibold px-6 py-2.5 rounded-xl transition-all text-sm">
-            Ir al Repaso Completo
+            Leer Repaso Completo
           </button>
         </div>
       </div>
@@ -191,7 +214,7 @@
           <h3 class="text-lg font-bold text-white">Cuadro Mágico: Regresión vs. Clasificación vs. Agrupamiento</h3>
         </div>
         <p class="text-xs text-slate-400 mb-4 font-mono">
-          🗣️ Citado textualmente por la profesora Valeria Feito en las Clases 7, 21 y 24.
+          🗣️ Pregunta fija ratificada en la Clase de Repaso (02/11):
         </p>
 
         <div class="overflow-x-auto">
@@ -202,7 +225,7 @@
                 <th class="py-3 px-3">Tipo de Aprendizaje</th>
                 <th class="py-3 px-3">Naturaleza de Datos</th>
                 <th class="py-3 px-3">Variable Objetivo ($y$)</th>
-                <th class="py-3 px-3">Ejemplo Concreto</th>
+                <th class="py-3 px-3">Ejemplo Práctico</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-800/60 font-sans">
@@ -211,21 +234,21 @@
                 <td class="py-3 px-3"><span class="bg-cyan-500/10 text-cyan-300 px-2 py-0.5 rounded text-xs font-semibold">Supervisado</span></td>
                 <td class="py-3 px-3 font-semibold text-emerald-400">Etiquetados</td>
                 <td class="py-3 px-3">Numérica continua (cuantitativa)</td>
-                <td class="py-3 px-3 text-slate-400">Precios de inmuebles, rotación mensual de ventas.</td>
+                <td class="py-3 px-3 text-slate-400">Precios de inmuebles, ventas mensuales en catálogo.</td>
               </tr>
               <tr class="hover:bg-slate-900/40">
                 <td class="py-3 px-3 font-bold text-emerald-400">Clasificación</td>
                 <td class="py-3 px-3"><span class="bg-emerald-500/10 text-emerald-300 px-2 py-0.5 rounded text-xs font-semibold">Supervisado</span></td>
                 <td class="py-3 px-3 font-semibold text-emerald-400">Etiquetados</td>
                 <td class="py-3 px-3">Categórica / Clases discretas (cualitativa)</td>
-                <td class="py-3 px-3 text-slate-400">Spam / No Spam, Diagnóstico médico, Tipo de cliente.</td>
+                <td class="py-3 px-3 text-slate-400">Detección de Spam, Diagnóstico médico (Sano / Enfermo).</td>
               </tr>
               <tr class="hover:bg-slate-900/40">
                 <td class="py-3 px-3 font-bold text-amber-400">Agrupamiento (Clustering)</td>
                 <td class="py-3 px-3"><span class="bg-amber-500/10 text-amber-300 px-2 py-0.5 rounded text-xs font-semibold">No Supervisado</span></td>
                 <td class="py-3 px-3 font-bold text-rose-400">NO Etiquetados</td>
                 <td class="py-3 px-3 text-slate-400 font-mono">Sin target previo (busca similitudes intrínsecas)</td>
-                <td class="py-3 px-3 text-slate-400">Segmentación de catálogo de productos por comportamiento (K-Means).</td>
+                <td class="py-3 px-3 text-slate-400">Segmentación de clientes por comportamiento (K-Means).</td>
               </tr>
             </tbody>
           </table>
@@ -235,82 +258,69 @@
       <!-- Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-        <!-- Card: Encoders -->
+        <!-- Card: Partición Train/Test -->
         <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-3">
           <div class="flex items-center gap-2">
             <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-300 flex items-center justify-center font-bold text-xs">2</span>
-            <h4 class="font-bold text-white text-base">Encoders (Transformación Categórica)</h4>
+            <h4 class="font-bold text-white text-base">División del Dataset (Pregunta Leída en Vivo)</h4>
           </div>
-          <div class="space-y-2 text-xs sm:text-sm text-slate-300">
-            <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800">
-              <span class="font-bold text-cyan-400 block mb-1">One-Hot Encoder (Sin orden)</span>
-              Se usa para variables nominales donde ninguna categoría vale más que otra (ej. Colores, Rubros). Crea columnas binarias (0 y 1) independientes.
+          <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 text-xs sm:text-sm text-slate-300 space-y-2">
+            <p><strong>¿Qué porcentaje se reserva para entrenamiento y para prueba?</strong></p>
+            <div class="flex items-center gap-3 font-mono font-bold">
+              <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-lg">80% Entrenamiento</span>
+              <span class="bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-lg">20% Prueba (Test)</span>
             </div>
-            <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800">
-              <span class="font-bold text-emerald-400 block mb-1">Ordinal Encoder (Con orden)</span>
-              Se usa cuando existe una jerarquía natural o prelación entre los niveles (ej. <em>Bajo &lt; Medio &lt; Alto</em> o <em>Sin Stock &lt; Poco &lt; Óptimo</em>).
-            </div>
+            <p class="text-slate-400 text-xs">También puede ser 70/30. Sirve para evaluar generalización y prevenir overfitting.</p>
           </div>
         </div>
 
-        <!-- Card: Procesos de ML -->
+        <!-- Card: Técnicas Univariadas -->
         <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-3">
           <div class="flex items-center gap-2">
             <span class="w-7 h-7 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-bold text-xs">3</span>
-            <h4 class="font-bold text-white text-base">Procesos Fundamentales de Machine Learning</h4>
+            <h4 class="font-bold text-white text-base">Técnicas de Análisis Univariado (Leída en Vivo)</h4>
           </div>
-          <p class="text-xs text-slate-400">Pregunta fija avisada en Clase 7:</p>
-          <div class="grid grid-cols-3 gap-2 text-center text-xs">
-            <div class="p-2.5 rounded-xl bg-slate-900 border border-cyan-500/30">
-              <span class="font-mono text-cyan-400 block font-bold mb-1">1. Train</span>
-              Aprende patrones y relaciones de los datos.
-            </div>
-            <div class="p-2.5 rounded-xl bg-slate-900 border border-emerald-500/30">
-              <span class="font-mono text-emerald-400 block font-bold mb-1">2. Validación</span>
-              Ajusta hiperparámetros del modelo.
-            </div>
-            <div class="p-2.5 rounded-xl bg-slate-900 border border-amber-500/30">
-              <span class="font-mono text-amber-400 block font-bold mb-1">3. Test</span>
-              Mide capacidad de generalización sobre datos no vistos.
-            </div>
+          <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 text-xs sm:text-sm text-slate-300 space-y-1.5">
+            <p><strong>Técnicas más frecuentes:</strong></p>
+            <ul class="list-disc list-inside space-y-1 text-slate-300">
+              <li>Distribución de frecuencias e histogramas.</li>
+              <li>Medidas de tendencia central: <strong class="text-cyan-400">Media, Mediana, Moda</strong>.</li>
+              <li>Medidas de dispersión: <strong class="text-emerald-400">Varianza, Desviación Estándar</strong>.</li>
+              <li>Cuartiles y Diagramas de Caja (<strong class="text-amber-400">Boxplot</strong>).</li>
+            </ul>
           </div>
         </div>
 
-        <!-- Card: Trampa Python -->
+        <!-- Card: Encoders -->
         <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-3">
           <div class="flex items-center gap-2">
             <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center font-bold text-xs">4</span>
-            <h4 class="font-bold text-white text-base">La Pregunta Trampa de Python (Clase 4)</h4>
+            <h4 class="font-bold text-white text-base">Encoders y Transformación Categórica</h4>
           </div>
-          <div class="space-y-2 text-xs font-mono">
-            <div class="flex items-center justify-between p-2.5 bg-slate-900 rounded-lg border border-slate-800">
-              <code class="text-cyan-300">25 / 4</code>
-              <span class="text-emerald-400 font-bold">Devuelve 6.25 (float)</span>
+          <div class="space-y-2 text-xs sm:text-sm text-slate-300">
+            <div class="p-2.5 bg-slate-900/80 rounded-xl border border-slate-800">
+              <span class="font-bold text-cyan-400 block mb-0.5">One-Hot Encoder (Sin orden)</span>
+              Variables nominales sin jerarquía (ej. Colores, Rubros). Crea columnas binarias (0 y 1).
             </div>
-            <div class="flex items-center justify-between p-2.5 bg-slate-900 rounded-lg border border-slate-800">
-              <code class="text-slate-400">25 // 4 (División entera)</code>
-              <span class="text-slate-300">Devuelve 6 (int)</span>
-            </div>
-            <div class="flex items-center justify-between p-2.5 bg-slate-900 rounded-lg border border-slate-800">
-              <code class="text-slate-400">25 % 4 (Módulo / Resto)</code>
-              <span class="text-slate-300">Devuelve 1 (int)</span>
+            <div class="p-2.5 bg-slate-900/80 rounded-xl border border-slate-800">
+              <span class="font-bold text-emerald-400 block mb-0.5">Ordinal Encoder (Con orden)</span>
+              Variables con jerarquía o prelación natural (ej. <em>Bajo &lt; Medio &lt; Alto</em>).
             </div>
           </div>
-          <p class="text-xs text-slate-400">En Python 3, el operador de división simple <code>/</code> <strong>siempre devuelve un tipo float</strong>.</p>
         </div>
 
-        <!-- Card: EDA y Métricas -->
+        <!-- Card: Matriz de Confusión y Falsos Negativos -->
         <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-3">
           <div class="flex items-center gap-2">
             <span class="w-7 h-7 rounded-lg bg-rose-500/20 text-rose-300 flex items-center justify-center font-bold text-xs">5</span>
-            <h4 class="font-bold text-white text-base">EDA, Outliers y Métricas</h4>
+            <h4 class="font-bold text-white text-base">Matriz de Confusión: El Error Más Grave</h4>
           </div>
-          <ul class="text-xs sm:text-sm text-slate-300 space-y-1.5 list-disc list-inside">
-            <li><strong>Outliers:</strong> Se visualizan principalmente mediante <strong>Boxplots (diagramas de caja)</strong>.</li>
-            <li><strong>Media vs Mediana:</strong> Ante asimetría y outliers, la <strong>Mediana</strong> es la medida representativa por su robustez.</li>
-            <li><strong>MAE vs RMSE:</strong> El <strong>MAE</strong> da el error medio en unidades reales; el <strong>RMSE</strong> penaliza con mayor severidad las equivocaciones grandes al elevar al cuadrado.</li>
-            <li><strong>Overfitting:</strong> Error mínimo en Train pero se dispara en Test (memorización sin generalización).</li>
-          </ul>
+          <div class="space-y-2 text-xs sm:text-sm text-slate-300">
+            <p><strong>Diagonal Principal:</strong> Predicciones correctas (Verdaderos Positivos y Verdaderos Negativos).</p>
+            <div class="p-2.5 bg-rose-950/40 border border-rose-500/30 rounded-xl text-rose-200">
+              <strong>Falso Negativo (FN) en Salud:</strong> Decirle erróneamente a un paciente enfermo que está sano. Se va a su casa sin tratamiento médico, siendo el error más crítico y letal.
+            </div>
+          </div>
         </div>
 
       </div>
@@ -326,11 +336,11 @@
       <div class="glass-panel p-6 rounded-2xl border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h3 class="text-xl font-bold text-white">Guía Integral de Estudio · Toda la Cursada</h3>
-          <p class="text-xs sm:text-sm text-slate-400 mt-1">Explorá cada módulo temático con definiciones formales, ejemplos prácticos y criterios de examen.</p>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">Conceptos revisados en la clase de repaso, con definiciones formales y pautas docentes.</p>
         </div>
         <div class="w-full md:w-72">
           <div class="relative">
-            <input type="text" id="searchInput" onkeyup="filterTopics()" placeholder="Buscar concepto (ej: encoder, rmse, outlier)..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono">
+            <input type="text" id="searchInput" onkeyup="filterTopics()" placeholder="Buscar concepto (ej: encoder, rmse, outlier, euclidiana)..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono">
             <svg class="w-4 h-4 text-slate-500 absolute right-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           </div>
         </div>
@@ -339,11 +349,47 @@
       <!-- Modules Accordion -->
       <div class="space-y-4" id="modulesContainer">
 
-        <!-- MODULO 1 -->
+        <!-- MODULO 0: DEFINICION Y EVOLUCION DE LA IA -->
         <details class="topic-item glass-panel rounded-2xl border border-slate-800 overflow-hidden group" open>
           <summary class="p-5 flex items-center justify-between cursor-pointer select-none bg-slate-900/40 hover:bg-slate-900/80 transition-all">
             <div class="flex items-center gap-3">
-              <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 font-bold text-xs flex items-center justify-center font-mono">M1</span>
+              <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 font-bold text-xs flex items-center justify-center font-mono">M0</span>
+              <div>
+                <h4 class="font-bold text-white text-base">Definición, Evolución y Clasificación de la IA</h4>
+                <span class="text-xs text-slate-400 font-mono">Foco Principal en Repaso (Min 8:00 - 36:00)</span>
+              </div>
+            </div>
+            <span class="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="p-6 border-t border-slate-800 space-y-4 text-xs sm:text-sm text-slate-300">
+            <div>
+              <h5 class="font-bold text-cyan-400 uppercase tracking-wider text-xs font-mono mb-1">¿Qué es la Inteligencia Artificial? (Pregunta Fija de Examen)</h5>
+              <p>Disciplina de la informática que se enfoca en crear sistemas y programas capaces de imitar la inteligencia humana mediante algoritmos y técnicas que permiten a las máquinas aprender de forma autónoma y realizar tareas complejas.</p>
+            </div>
+            <div>
+              <h5 class="font-bold text-cyan-400 uppercase tracking-wider text-xs font-mono mb-1">Clasificación por Capacidad</h5>
+              <ul class="list-disc list-inside space-y-1">
+                <li><strong>IA Débil (Estrecha / ANI):</strong> Especializada en una sola tarea (ej. traductor, filtro de spam). Sin conciencia ni comprensión general del entorno.</li>
+                <li><strong>IA General (AGI):</strong> Capaz de razonar, aprender y adaptarse como un ser humano para múltiples dominios (en fase de investigación).</li>
+                <li><strong>Superinteligencia (ASI):</strong> Hipotética; supera ampliamente al intelecto humano en todas las disciplinas y posee autoconciencia (fase teórica/filosófica).</li>
+              </ul>
+            </div>
+            <div>
+              <h5 class="font-bold text-cyan-400 uppercase tracking-wider text-xs font-mono mb-1">Clasificación por Función</h5>
+              <p>Sistemas Expertos (reproducen conocimiento de experto humano con base de conocimiento y motor de inferencia, ej. medicina), Sistemas de Control (regulan procesos con sensores e industria), Agentes de IA (perciben, razonan y actúan autónomamente hacia un objetivo), y Robótica (integra software con hardware/sensores para interactuar físicamente).</p>
+            </div>
+            <div>
+              <h5 class="font-bold text-cyan-400 uppercase tracking-wider text-xs font-mono mb-1">El Rol de N8N</h5>
+              <p>La profesora aclaró: <strong>N8N no es una IA generativa de contenido</strong>; es un <strong>orquestador</strong> que conecta APIs, bases de datos y modelos LLM (ChatGPT, Claude, Gemini) para articular sistemas de agentes y automatizar flujos complejos.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- MODULO 1 -->
+        <details class="topic-item glass-panel rounded-2xl border border-slate-800 overflow-hidden group">
+          <summary class="p-5 flex items-center justify-between cursor-pointer select-none bg-slate-900/40 hover:bg-slate-900/80 transition-all">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold text-xs flex items-center justify-center font-mono">M1</span>
               <div>
                 <h4 class="font-bold text-white text-base">Entornos, Git/GitHub y Fundamentos de Python</h4>
                 <span class="text-xs text-slate-400 font-mono">Clases 1, 2, 4 y 5</span>
@@ -353,16 +399,12 @@
           </summary>
           <div class="p-6 border-t border-slate-800 space-y-4 text-xs sm:text-sm text-slate-300">
             <div>
-              <h5 class="font-bold text-cyan-400 uppercase tracking-wider text-xs font-mono mb-1">DeepNote y Entornos Interactivos</h5>
-              <p>Plataforma colaborativa basada en Jupyter Notebooks en la nube. Permite combinar celdas de texto formateado (Markdown), celdas de código ejecutable (Python) y visualización de outputs en tiempo real.</p>
+              <h5 class="font-bold text-emerald-400 uppercase tracking-wider text-xs font-mono mb-1">Operadores y Tipos en Python (Pregunta de Examen)</h5>
+              <p>En Python 3, la división simple <code>/</code> <strong>siempre devuelve float</strong> (ej. <code>25 / 4 = 6.25</code>). La división entera <code>//</code> devuelve <code>int</code> (ej. <code>25 // 4 = 6</code>), y el operador módulo <code>%</code> devuelve el resto (ej. <code>25 % 4 = 1</code>).</p>
             </div>
             <div>
-              <h5 class="font-bold text-cyan-400 uppercase tracking-wider text-xs font-mono mb-1">Control de Versiones (Git y GitHub)</h5>
-              <p>Herramientas indispensables para la reproducibilidad y trazabilidad en proyectos de IA. Comandos esenciales: <code>git init</code> (inicia repo), <code>git add</code> (pasa archivos al stage area), <code>git commit -m</code> (guarda snapshot con mensaje descriptivo), <code>git branch</code> (crea rama), <code>git push</code> (sincroniza con el servidor remoto de GitHub).</p>
-            </div>
-            <div>
-              <h5 class="font-bold text-cyan-400 uppercase tracking-wider text-xs font-mono mb-1">Operadores y Tipos en Python (Pregunta de Examen)</h5>
-              <p>En Python 3, la división simple <code>/</code> <strong>siempre devuelve float</strong> (ej. <code>25 / 4 = 6.25</code>). La división entera <code>//</code> descarta la parte decimal devolviendo <code>int</code> (ej. <code>25 // 4 = 6</code>), y el operador módulo <code>%</code> devuelve el residuo o resto de la división entera (ej. <code>25 % 4 = 1</code>).</p>
+              <h5 class="font-bold text-emerald-400 uppercase tracking-wider text-xs font-mono mb-1">Comandos Clave de Git</h5>
+              <p><code>git init</code> (inicia repo), <code>git add .</code> (stage area), <code>git commit -m</code> (snapshot en historial), <code>git push origin main</code> (sube a GitHub remoto).</p>
             </div>
           </div>
         </details>
@@ -371,32 +413,26 @@
         <details class="topic-item glass-panel rounded-2xl border border-slate-800 overflow-hidden group">
           <summary class="p-5 flex items-center justify-between cursor-pointer select-none bg-slate-900/40 hover:bg-slate-900/80 transition-all">
             <div class="flex items-center gap-3">
-              <span class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold text-xs flex items-center justify-center font-mono">M2</span>
+              <span class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 font-bold text-xs flex items-center justify-center font-mono">M2</span>
               <div>
-                <h4 class="font-bold text-white text-base">Ecosistema de Librerías para Ciencia de Datos e IA</h4>
-                <span class="text-xs text-slate-400 font-mono">Clases 3, 8 y 9</span>
+                <h4 class="font-bold text-white text-base">Análisis Exploratorio de Datos (EDA) y Medidas Estadísticas</h4>
+                <span class="text-xs text-slate-400 font-mono">Clases 10 y 11</span>
               </div>
             </div>
             <span class="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
           </summary>
           <div class="p-6 border-t border-slate-800 space-y-4 text-xs sm:text-sm text-slate-300">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
-                <span class="font-bold text-emerald-400 block mb-1">NumPy</span>
-                Operaciones numéricas de alto rendimiento mediante arrays multidimensionales (<code>ndarray</code>), álgebra lineal y operaciones vectorizadas eficientes en memoria.
-              </div>
-              <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
-                <span class="font-bold text-cyan-400 block mb-1">Pandas</span>
-                Estructuras tabulares bidimensionales (<code>DataFrame</code>) y unidimensionales (<code>Series</code>). Ingesta (<code>read_csv</code>), limpieza, indexación, filtrado y agregación (<code>groupby</code>).
-              </div>
-              <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
-                <span class="font-bold text-amber-400 block mb-1">Matplotlib & Seaborn</span>
-                Generación de gráficos estadísticos: histogramas y KDE (distribuciones), boxplots (outliers), scatter plots (dispersión) y heatmaps (correlaciones cruzadas).
-              </div>
-              <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
-                <span class="font-bold text-rose-400 block mb-1">Scikit-Learn (sklearn)</span>
-                Ecosistema estándar de Machine Learning: transformadores (<code>fit</code> / <code>transform</code>), estimadores y modelos (<code>fit</code> / <code>predict</code>), pipelines y métricas.
-              </div>
+            <div>
+              <h5 class="font-bold text-amber-400 uppercase tracking-wider text-xs font-mono mb-1">Técnicas Frecuentes de Análisis Univariado</h5>
+              <p>Distribución de frecuencias, medidas de tendencia central (media, mediana, moda), medidas de dispersión (varianza, desviación estándar) y cuartiles con diagramas de caja (Boxplot).</p>
+            </div>
+            <div>
+              <h5 class="font-bold text-amber-400 uppercase tracking-wider text-xs font-mono mb-1">Robustez de la Mediana ante Outliers</h5>
+              <p>Cuando un conjunto tiene asimetría o valores atípicos (outliers), la <strong>Mediana</strong> es la medida representativa porque no se distorsiona como la Media.</p>
+            </div>
+            <div>
+              <h5 class="font-bold text-amber-400 uppercase tracking-wider text-xs font-mono mb-1">Principio de Causalidad</h5>
+              <p>Una alta correlación estadística entre dos variables jamás implica que una cause a la otra (asociación no es causalidad).</p>
             </div>
           </div>
         </details>
@@ -405,26 +441,30 @@
         <details class="topic-item glass-panel rounded-2xl border border-slate-800 overflow-hidden group">
           <summary class="p-5 flex items-center justify-between cursor-pointer select-none bg-slate-900/40 hover:bg-slate-900/80 transition-all">
             <div class="flex items-center gap-3">
-              <span class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 font-bold text-xs flex items-center justify-center font-mono">M3</span>
+              <span class="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-300 font-bold text-xs flex items-center justify-center font-mono">M3</span>
               <div>
-                <h4 class="font-bold text-white text-base">Análisis Exploratorio de Datos (EDA) y Estadística</h4>
-                <span class="text-xs text-slate-400 font-mono">Clases 10 y 11</span>
+                <h4 class="font-bold text-white text-base">Limpieza, Encoders, Escaladores y Distancia Euclidiana</h4>
+                <span class="text-xs text-slate-400 font-mono">Clases 12 y 14</span>
               </div>
             </div>
             <span class="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
           </summary>
           <div class="p-6 border-t border-slate-800 space-y-4 text-xs sm:text-sm text-slate-300">
             <div>
-              <h5 class="font-bold text-amber-400 uppercase tracking-wider text-xs font-mono mb-1">Análisis Univariado y Medidas de Tendencia Central</h5>
-              <p>Estudio de una variable aislada. Ante distribuciones asimétricas o con outliers extremos, la <strong>Mediana</strong> (valor que divide el 50% de los datos) es la medida más representativa por su <strong>robustez</strong>, a diferencia de la <strong>Media</strong> que se ve arrastrada por los extremos.</p>
+              <h5 class="font-bold text-rose-400 uppercase tracking-wider text-xs font-mono mb-1">Encoders: One-Hot vs Ordinal</h5>
+              <p><strong>One-Hot:</strong> variables nominales sin orden (ej. Colores). <strong>Ordinal:</strong> categorías con orden natural o jerarquía de prelación (ej. Bajo, Medio, Alto).</p>
             </div>
             <div>
-              <h5 class="font-bold text-amber-400 uppercase tracking-wider text-xs font-mono mb-1">Detección de Outliers (Diagrama de Caja / Boxplot)</h5>
-              <p>El Boxplot grafica el valor mínimo, el primer cuartil (Q1 - percentil 25), la mediana (Q2 - percentil 50), el tercer cuartil (Q3 - percentil 75) y el valor máximo dentro de los bigotes ($1.5 	imes IQR$). Los puntos que escapan a este rango son catalogados como <strong>valores atípicos (outliers)</strong>.</p>
+              <h5 class="font-bold text-rose-400 uppercase tracking-wider text-xs font-mono mb-1">Escaladores (Scalers)</h5>
+              <p><strong>StandardScaler:</strong> Estandariza con media 0 y desvío 1. <strong>MinMaxScaler:</strong> Lleva al rango [0, 1]. <strong>RobustScaler:</strong> Usa la mediana y el rango intercuartílico (IQR), ideal cuando el dataset contiene outliers.</p>
             </div>
             <div>
-              <h5 class="font-bold text-amber-400 uppercase tracking-wider text-xs font-mono mb-1">Correlación vs. Causalidad (Bivariado y Multivariado)</h5>
-              <p>El coeficiente de correlación de Pearson ($r$) mide únicamente el grado de <strong>asociación lineal</strong> entre dos variables cuantitativas continuas (oscila entre -1 y +1; $r pprox 0$ indica ausencia de relación lineal). <strong>Regla de oro:</strong> Que dos variables estén correlacionadas jamás demuestra que una cause a la otra.</p>
+              <h5 class="font-bold text-rose-400 uppercase tracking-wider text-xs font-mono mb-1">¿Por qué la Distancia Euclidiana solo opera con números?</h5>
+              <p>Porque involucra operaciones aritméticas (raíz cuadrada de diferencias al cuadrado) en un espacio geométrico continuo; no puede calcular distancias con palabras sin codificarlas previamente.</p>
+            </div>
+            <div>
+              <h5 class="font-bold text-rose-400 uppercase tracking-wider text-xs font-mono mb-1">Data Leakage (Fuga de Información)</h5>
+              <p>Incluir variables derivadas directamente del target (como calcular facturación multiplicando precio por ventas) invalida el modelo al darle la respuesta por adelantado.</p>
             </div>
           </div>
         </details>
@@ -433,26 +473,26 @@
         <details class="topic-item glass-panel rounded-2xl border border-slate-800 overflow-hidden group">
           <summary class="p-5 flex items-center justify-between cursor-pointer select-none bg-slate-900/40 hover:bg-slate-900/80 transition-all">
             <div class="flex items-center gap-3">
-              <span class="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-300 font-bold text-xs flex items-center justify-center font-mono">M4</span>
+              <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 font-bold text-xs flex items-center justify-center font-mono">M4</span>
               <div>
-                <h4 class="font-bold text-white text-base">Limpieza de Datos, Encoders y Preprocesamiento</h4>
-                <span class="text-xs text-slate-400 font-mono">Clases 12 y 14</span>
+                <h4 class="font-bold text-white text-base">Modelado Supervisado: Regresión vs. Clasificación</h4>
+                <span class="text-xs text-slate-400 font-mono">Clases 7 y 16</span>
               </div>
             </div>
             <span class="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
           </summary>
           <div class="p-6 border-t border-slate-800 space-y-4 text-xs sm:text-sm text-slate-300">
             <div>
-              <h5 class="font-bold text-rose-400 uppercase tracking-wider text-xs font-mono mb-1">Valores Faltantes: Eliminación vs. Imputación</h5>
-              <p>Eliminar filas con <code>dropna()</code> de forma indiscriminada puede reducir drásticamente el tamaño muestral y sesgar el modelo. Se recomienda evaluar la <strong>imputación</strong> con la media (si la distribución es normal), la mediana (si tiene asimetría/outliers) o la moda (en variables categóricas).</p>
+              <h5 class="font-bold text-cyan-400 uppercase tracking-wider text-xs font-mono mb-1">Los 3 Procesos Fundamentales</h5>
+              <p><strong>Entrenamiento (Train):</strong> El modelo aprende patrones. <strong>Validación:</strong> Ajuste de hiperparámetros. <strong>Prueba (Test):</strong> Evaluación final con datos nunca antes vistos para medir generalización.</p>
             </div>
             <div>
-              <h5 class="font-bold text-rose-400 uppercase tracking-wider text-xs font-mono mb-1">Encoders: One-Hot vs. Ordinal Encoder</h5>
-              <p>Los algoritmos matemáticos requieren datos numéricos. Si la categoría es <strong>nominal sin orden</strong> (ej. <em>Colores, Provincias</em>), se usa <strong>One-Hot Encoder</strong> (columnas binarias 0/1). Si la categoría tiene un <strong>orden de prelación</strong> (ej. <em>Primario &lt; Secundario &lt; Universitario</em>), se usa <strong>Ordinal Encoder</strong> para conservar la escala jerárquica.</p>
+              <h5 class="font-bold text-cyan-400 uppercase tracking-wider text-xs font-mono mb-1">Partición Estándar Train/Test</h5>
+              <p><strong>80% Entrenamiento / 20% Prueba</strong> (o 70/30). Permite entrenar con la mayoría de datos y evaluar objetivamente en el remanente.</p>
             </div>
             <div>
-              <h5 class="font-bold text-rose-400 uppercase tracking-wider text-xs font-mono mb-1">Prevención de Fuga de Información (Data Leakage)</h5>
-              <p>Ocurre cuando el modelo recibe información durante el entrenamiento que no estaría disponible en el momento real de predecir. Ejemplo crítico del TP: la variable <code>Facturación</code> jamás debe entrar como feature para predecir <code>Ventas</code>, ya que se calcula multiplicando <code>Precio * Ventas</code>, provocando fuga total del target.</p>
+              <h5 class="font-bold text-cyan-400 uppercase tracking-wider text-xs font-mono mb-1">Matriz de Confusión</h5>
+              <p>La <strong>diagonal principal</strong> contiene las predicciones correctas (VP y VN). Fuera de la diagonal se ubican los errores. En salud, el <strong>Falso Negativo (FN)</strong> es el error más crítico (enfermo no diagnosticado).</p>
             </div>
           </div>
         </details>
@@ -461,45 +501,9 @@
         <details class="topic-item glass-panel rounded-2xl border border-slate-800 overflow-hidden group">
           <summary class="p-5 flex items-center justify-between cursor-pointer select-none bg-slate-900/40 hover:bg-slate-900/80 transition-all">
             <div class="flex items-center gap-3">
-              <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 font-bold text-xs flex items-center justify-center font-mono">M5</span>
+              <span class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold text-xs flex items-center justify-center font-mono">M5</span>
               <div>
-                <h4 class="font-bold text-white text-base">Modelos de Machine Learning: Regresión vs. Clasificación</h4>
-                <span class="text-xs text-slate-400 font-mono">Clases 7 y 16</span>
-              </div>
-            </div>
-            <span class="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-          </summary>
-          <div class="p-6 border-t border-slate-800 space-y-4 text-xs sm:text-sm text-slate-300">
-            <div>
-              <h5 class="font-bold text-cyan-400 uppercase tracking-wider text-xs font-mono mb-1">Los 3 Procesos Fundamentales de ML</h5>
-              <p><strong>Entrenamiento (Train):</strong> El modelo ajusta sus parámetros internos. <strong>Validación:</strong> Ajuste y calibración de hiperparámetros. <strong>Prueba (Test):</strong> Evaluación final con datos nunca antes vistos para medir la capacidad de generalización.</p>
-            </div>
-            <div>
-              <h5 class="font-bold text-cyan-400 uppercase tracking-wider text-xs font-mono mb-1">Métricas de Regresión (Target Numérico)</h5>
-              <ul class="list-disc list-inside space-y-1">
-                <li><strong>MAE (Mean Absolute Error):</strong> Error absoluto promedio expresado en las mismas unidades que la variable target.</li>
-                <li><strong>RMSE (Root Mean Squared Error):</strong> Raíz del error cuadrático; penaliza con mayor dureza los errores grandes debido a la elevación al cuadrado.</li>
-                <li><strong>$R^2$ (Coeficiente de Determinación):</strong> Proporción de la varianza explicada. Si $R^2 pprox 0$, significa que el modelo no supera a una simple predicción basada en la media muestral.</li>
-              </ul>
-            </div>
-            <div>
-              <h5 class="font-bold text-cyan-400 uppercase tracking-wider text-xs font-mono mb-1">Métricas de Clasificación y Matriz de Confusión</h5>
-              <p>Cruza valores reales vs predichos: <strong>Verdaderos Positivos (VP)</strong>, <strong>Verdaderos Negativos (VN)</strong>, <strong>Falsos Positivos (FP - Error Tipo I)</strong> y <strong>Falsos Negativos (FN - Error Tipo II)</strong>. La métrica <code>Accuracy</code> mide el porcentaje de aciertos totales, mientras que <code>Precision</code> evalúa la exactitud de los positivos predichos y <code>Recall</code> mide cuántos positivos reales fueron detectados.</p>
-            </div>
-            <div>
-              <h5 class="font-bold text-cyan-400 uppercase tracking-wider text-xs font-mono mb-1">Overfitting vs. Underfitting</h5>
-              <p><strong>Overfitting (Sobreajuste):</strong> El modelo memoriza el ruido del set de entrenamiento (error casi cero en train), pero fracasa estrepitosamente en test. <strong>Underfitting (Subajuste):</strong> El modelo es demasiado simple y no logra capturar los patrones ni en train ni en test.</p>
-            </div>
-          </div>
-        </details>
-
-        <!-- MODULO 6 -->
-        <details class="topic-item glass-panel rounded-2xl border border-slate-800 overflow-hidden group">
-          <summary class="p-5 flex items-center justify-between cursor-pointer select-none bg-slate-900/40 hover:bg-slate-900/80 transition-all">
-            <div class="flex items-center gap-3">
-              <span class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold text-xs flex items-center justify-center font-mono">M6</span>
-              <div>
-                <h4 class="font-bold text-white text-base">Aprendizaje No Supervisado: Algoritmos de Agrupación</h4>
+                <h4 class="font-bold text-white text-base">Aprendizaje No Supervisado: Agrupamiento (Clustering)</h4>
                 <span class="text-xs text-slate-400 font-mono">Clase 21</span>
               </div>
             </div>
@@ -507,40 +511,12 @@
           </summary>
           <div class="p-6 border-t border-slate-800 space-y-4 text-xs sm:text-sm text-slate-300">
             <div>
-              <h5 class="font-bold text-emerald-400 uppercase tracking-wider text-xs font-mono mb-1">Concepto Clave de Examen: Datos NO Etiquetados</h5>
-              <p>A diferencia de la regresión y la clasificación que requieren datos previamente etiquetados con una respuesta conocida ($y$), los algoritmos de <strong>agrupamiento (clustering)</strong> trabajan con <strong>datos no etiquetados</strong>. El algoritmo explora la estructura matemática de los datos para agrupar registros por cercanía o similitud geométrica.</p>
+              <h5 class="font-bold text-emerald-400 uppercase tracking-wider text-xs font-mono mb-1">Datos NO Etiquetados</h5>
+              <p>El agrupamiento opera sin etiquetas previas, descubriendo similitudes y patrones geométricos en crudo (ej. K-Means con centroides, agrupamiento jerárquico).</p>
             </div>
             <div>
-              <h5 class="font-bold text-emerald-400 uppercase tracking-wider text-xs font-mono mb-1">Algoritmo K-Means y Centroides</h5>
-              <p>K-Means es un algoritmo particional que divide las observaciones en $K$ conglomerados o clusters. Cada cluster está representado por un <strong>centroide</strong> (el punto medio geométrico del grupo). Los puntos se asignan al centroide más cercano utilizando comúnmente la distancia euclídea.</p>
-            </div>
-            <div>
-              <h5 class="font-bold text-emerald-400 uppercase tracking-wider text-xs font-mono mb-1">Clustering Jerárquico y Dendrogramas</h5>
-              <p>Construye una jerarquía de grupos de forma aglomerativa (de abajo hacia arriba, uniendo pares de puntos similares). La estructura resultante se visualiza a través de un <strong>dendrograma</strong> (diagrama de árbol) que permite decidir a qué altura realizar el corte para definir el número óptimo de clusters.</p>
-            </div>
-          </div>
-        </details>
-
-        <!-- MODULO 7 -->
-        <details class="topic-item glass-panel rounded-2xl border border-slate-800 overflow-hidden group">
-          <summary class="p-5 flex items-center justify-between cursor-pointer select-none bg-slate-900/40 hover:bg-slate-900/80 transition-all">
-            <div class="flex items-center gap-3">
-              <span class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 font-bold text-xs flex items-center justify-center font-mono">M7</span>
-              <div>
-                <h4 class="font-bold text-white text-base">Metodologías de Gestión (CRISP-DM) y Data Storytelling</h4>
-                <span class="text-xs text-slate-400 font-mono">Clases 15, 17 y 23</span>
-              </div>
-            </div>
-            <span class="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-          </summary>
-          <div class="p-6 border-t border-slate-800 space-y-4 text-xs sm:text-sm text-slate-300">
-            <div>
-              <h5 class="font-bold text-amber-400 uppercase tracking-wider text-xs font-mono mb-1">Metodología CRISP-DM</h5>
-              <p>Estándar de la industria para proyectos de minería de datos y Machine Learning. Comprende 6 fases iterativas: 1) Business Understanding, 2) Data Understanding, 3) Data Preparation, 4) Modeling, 5) Evaluation, y 6) Deployment.</p>
-            </div>
-            <div>
-              <h5 class="font-bold text-amber-400 uppercase tracking-wider text-xs font-mono mb-1">Data Storytelling</h5>
-              <p>El arte de comunicar conclusiones cuantitativas a los tomadores de decisiones combinando tres componentes: <strong>Datos</strong> (los hechos analíticos), <strong>Visuales</strong> (los gráficos comprensibles) y <strong>Narrativa</strong> (el contexto de negocio y el impacto económico/operativo).</p>
+              <h5 class="font-bold text-emerald-400 uppercase tracking-wider text-xs font-mono mb-1">Distancia y Similitud</h5>
+              <p>A menor distancia geométrica entre puntos en el espacio multidimensional, mayor es su similitud y pertenencia al mismo cluster.</p>
             </div>
           </div>
         </details>
@@ -568,113 +544,113 @@
     const questions = [
       {
         id: 1,
-        topic: "Python y Tipos de Datos (Clase 4)",
-        question: "¿Qué tipo de dato devuelve la operación de división simple `25 / 4` en Python?",
+        topic: "Introducción y Definición de IA (Clase de Repaso)",
+        question: "¿Cuál es la definición formal de Inteligencia Artificial abordada en la cursada?",
         options: [
-          { text: "Un número entero (int)", correct: false },
-          { text: "Un número de coma flotante (float)", correct: true },
-          { text: "Una cadena de texto (str)", correct: false }
+          { text: "Un hardware físico diseñado exclusivamente para reemplazar la fuerza motriz humana", correct: false },
+          { text: "Una disciplina de la informática orientada a crear sistemas que imitan la inteligencia humana y aprenden autónomamente", correct: true },
+          { text: "Un lenguaje de programación basado estrictamente en operaciones lógicas binarias", correct: false }
         ],
-        explanation: "En Python 3, el operador de división simple `/` siempre devuelve un tipo `float` (en este caso `6.25`), incluso si la división fuera exacta (como `4 / 2 = 2.0`). La profesora lo remarcó en vivo como pregunta de examen."
+        explanation: "Confirmado textualmente por la profesora en la Clase de Repaso: 'De esto sí hay una pregunta seguro... La inteligencia artificial es una disciplina de la informática que se enfoca en crear sistemas y programas que pueden imitar la inteligencia humana mediante algoritmos para aprender de forma autónoma'."
       },
       {
         id: 2,
-        topic: "Procesos Fundamentales de Machine Learning (Clase 7)",
-        question: "¿Cuáles son los tres procesos fundamentales del ciclo de Machine Learning explicados por la docente?",
+        topic: "Partición del Dataset (Pregunta Leída en Vivo)",
+        question: "¿Cuál es la proporción estándar del dataset que se suele reservar para entrenamiento (Train) y para prueba (Test)?",
+        options: [
+          { text: "Entrenamiento 50% / Prueba 50%", correct: false },
+          { text: "Entrenamiento 20% / Prueba 80%", correct: false },
+          { text: "Entrenamiento 80% / Prueba 20% (o 70% / 30%)", correct: true }
+        ],
+        explanation: "Pregunta que la profesora leyó de forma literal en la clase de repaso: se reserva la gran mayoría (80% o 70%) para que el modelo aprenda patrones en el entrenamiento, y el 20% o 30% restante para evaluar generalización sin contaminación de datos."
+      },
+      {
+        id: 3,
+        topic: "Técnicas de Análisis Univariado (Pregunta Leída en Vivo)",
+        question: "¿Cuáles son las técnicas estadísticas y gráficas más frecuentes para llevar a cabo un análisis univariado?",
+        options: [
+          { text: "Diagramas de dispersión (Scatter plot), coeficientes de correlación y regresión lineal simple", correct: false },
+          { text: "Distribución de frecuencias, medidas de tendencia central (media, mediana, moda), varianza, desvío estándar y cuartiles/boxplot", correct: true },
+          { text: "Análisis de componentes principales (PCA), análisis de conglomerados y dendrogramas", correct: false }
+        ],
+        explanation: "Pregunta textual leída por Feito en el repaso: el análisis univariado estudia una sola variable a la vez a través de frecuencias, tendencia central (media, mediana, moda) y dispersión (varianza, desvío, cuartiles, boxplots)."
+      },
+      {
+        id: 4,
+        topic: "Procesos Fundamentales de Machine Learning (Clase 7 y Repaso)",
+        question: "¿Cuáles son los tres procesos fundamentales del Machine Learning explicados por la docente?",
         options: [
           { text: "Ingesta, Limpieza y Visualización de datos", correct: false },
           { text: "Entrenamiento, Validación y Prueba (Test)", correct: true },
           { text: "Recolección, Etiquetado y Despliegue en producción", correct: false }
         ],
-        explanation: "Dicho textualmente por la profesora en la Clase 7: 'Ojo acá que esto es una pregunta de examen: Cuando yo les pregunto cuáles son los procesos fundamentales del Machine Learning, son entrenamiento, validación y prueba'."
-      },
-      {
-        id: 3,
-        topic: "Paradigmas de Aprendizaje (Clase 7 y 24)",
-        question: "¿Qué tipo de aprendizaje utiliza un algoritmo de Agrupamiento (Clustering como K-Means)?",
-        options: [
-          { text: "Aprendizaje Supervisado", correct: false },
-          { text: "Aprendizaje No Supervisado", correct: true },
-          { text: "Aprendizaje por Refuerzo", correct: false }
-        ],
-        explanation: "El agrupamiento es Aprendizaje No Supervisado porque el algoritmo explora los datos y encuentra grupos naturales por similitud sin conocer un resultado ni contar con etiquetas previas."
-      },
-      {
-        id: 4,
-        topic: "Naturaleza de los Datos (Clase 21)",
-        question: "¿Con qué tipo de datos trabaja un algoritmo de Agrupamiento (Clustering) a diferencia de la Regresión y la Clasificación?",
-        options: [
-          { text: "Con datos numéricos obligatoriamente etiquetados", correct: false },
-          { text: "Con datos NO etiquetados (sin variable target o resultado previo)", correct: true },
-          { text: "Únicamente con datos booleanos de verdadero y falso", correct: false }
-        ],
-        explanation: "Citado textualmente en la Clase 21: 'Lo que sí tienen que acordarse porque es pregunta de examen: el tipo de algoritmo que trabaja con datos no etiquetados es el de agrupamiento. Regresión y clasificación trabajan con datos etiquetados'."
+        explanation: "Ratificado en las clases: 'Los tres procesos fundamentales del Machine Learning son entrenamiento, validación y prueba'."
       },
       {
         id: 5,
-        topic: "Regresión vs. Clasificación (Clase 16 y 21)",
-        question: "¿Cuál es la diferencia fundamental en la variable objetivo ($y$) entre Regresión y Clasificación?",
+        topic: "Matriz de Confusión y Diagnóstico Médico (Clase de Repaso)",
+        question: "En una matriz de confusión aplicada a un diagnóstico médico de una enfermedad grave, ¿cuál es el error más crítico y perjudicial?",
         options: [
-          { text: "Regresión predice valores cuantitativos/numéricos continuos; Clasificación predice etiquetas o clases cualitativas/categóricas", correct: true },
-          { text: "Regresión trabaja sin datos etiquetados y Clasificación trabaja con datos etiquetados", correct: false },
-          { text: "Regresión solo predice números enteros y Clasificación predice probabilidades infinitas", correct: false }
+          { text: "El Falso Negativo (determinar erróneamente que una persona enferma está sana)", correct: true },
+          { text: "El Falso Positivo (determinar erróneamente que una persona sana está enferma)", correct: false },
+          { text: "El Verdadero Positivo", correct: false }
         ],
-        explanation: "Regresión busca estimar magnitudes continuas (ej. precios, ventas, temperaturas); Clasificación busca asignar pertenencia a categorías discretas (ej. spam / no spam, categorías de clientes)."
+        explanation: "Explicado con énfasis en la clase de repaso: un Falso Negativo manda al paciente enfermo a su casa sin tratamiento creyendo que está sano, lo que puede provocar su muerte. En salud, el Falso Negativo es el error más grave."
       },
       {
         id: 6,
-        topic: "Transformación de Variables (Clase 14)",
-        question: "¿Qué codificador se aplica a variables categóricas cuando existe un orden o jerarquía de prelación natural?",
+        topic: "Distancia Euclidiana (Clase 14 y Repaso)",
+        question: "¿Por qué los algoritmos basados en Distancia Euclidiana analizan exclusivamente datos numéricos continuos?",
         options: [
-          { text: "One-Hot Encoder (get_dummies)", correct: false },
-          { text: "Ordinal Encoder (o Label Encoder ordinal)", correct: true },
-          { text: "StandardScaler", correct: false }
+          { text: "Porque requiere operaciones aritméticas de cálculo geométrico (diferencias al cuadrado y raíces) que no pueden aplicarse sobre texto", correct: true },
+          { text: "Porque la distancia euclidiana descarta automáticamente los números impares", correct: false },
+          { text: "Porque fue diseñada exclusivamente para bases de datos no estructuradas", correct: false }
         ],
-        explanation: "El Ordinal Encoder asigna enteros respetando la escala jerárquica de la variable (ej. Bajo = 1, Medio = 2, Alto = 3). Si no hubiera orden, se debe usar One-Hot Encoding."
+        explanation: "Mencionado en la clase de repaso: la distancia euclidiana calcula la separación espacial entre puntos mediante ecuaciones matemáticas. No se puede calcular distancias con palabras salvo que se hayan transformado previamente con encoders."
       },
       {
         id: 7,
-        topic: "Transformación de Variables (Clase 14)",
-        question: "¿Cuándo es indispensable utilizar `One-Hot Encoding` en lugar de un codificador ordinal?",
+        topic: "Encoders Categóricos (Clase 14 y Repaso)",
+        question: "¿Cuál es el encoder que transforma variables categóricas en números respetando un orden de jerarquía o prelación?",
         options: [
-          { text: "Cuando las variables categóricas son nominales sin orden jerárquico (ej. Colores, Rubros)", correct: true },
-          { text: "Cuando la variable categórica ya está expresada en números del 1 al 10", correct: false },
-          { text: "Únicamente cuando se busca reducir la cantidad de columnas del dataset", correct: false }
+          { text: "One-Hot Encoder", correct: false },
+          { text: "Ordinal Encoder (o Label Encoder ordinal)", correct: true },
+          { text: "Binary Encoder", correct: false }
         ],
-        explanation: "Si a variables sin orden (como colores) se les asigna 1, 2, 3, el modelo asumirá falsamente una relación matemática de magnitud. El One-Hot Encoding crea variables dummy (0 y 1) independientes."
+        explanation: "El Ordinal Encoder se aplica cuando existe un orden natural entre las categorías (ej. Primario < Secundario < Universitario). Si no hubiera orden, se utiliza One-Hot Encoding."
       },
       {
         id: 8,
-        topic: "Metodología de Validación (Clase 7 y 16)",
-        question: "¿Por qué dividimos los datos en conjunto de Entrenamiento (Train) y Prueba (Test)?",
+        topic: "Naturaleza de los Datos (Clase 21 y Repaso)",
+        question: "¿Con qué tipo de datos trabaja fundamentalmente un algoritmo de Agrupamiento (Clustering)?",
         options: [
-          { text: "Para evaluar la capacidad de generalización sobre datos no vistos y evitar el sobreajuste (overfitting)", correct: true },
-          { text: "Para ahorrar memoria RAM reduciendo el volumen de cómputo", correct: false },
-          { text: "Para balancear automáticamente las proporciones de las clases", correct: false }
+          { text: "Con datos NO etiquetados (sin variable target o resultado previo conocido)", correct: true },
+          { text: "Con datos numéricos obligatoriamente etiquetados por un experto", correct: false },
+          { text: "Únicamente con valores booleanos de verdadero y falso", correct: false }
         ],
-        explanation: "Un modelo puede memorizar perfectamente los datos de entrenamiento pero fallar por completo con datos reales nuevos. La partición de Test evalúa el rendimiento real frente a lo desconocido."
+        explanation: "La gran distinción explicada por la profesora: Regresión y Clasificación trabajan con datos etiquetados (tienen un target conocido). Agrupamiento trabaja con datos NO etiquetados buscando similitudes intrínsecas."
       },
       {
         id: 9,
-        topic: "Análisis Exploratorio de Datos (EDA) (Clase 10 y 11)",
-        question: "¿Cuál es el gráfico estadístico estándar para detectar valores atípicos (outliers) en una variable continua?",
+        topic: "Operadores en Python (Clase 4 y Repaso)",
+        question: "¿Qué tipo de dato devuelve la operación de división simple `25 / 4` en Python 3?",
         options: [
-          { text: "Gráfico de Torta (Pie Chart)", correct: false },
-          { text: "Diagrama de Caja y Bigotes (Boxplot)", correct: true },
-          { text: "Gráfico de Líneas de tendencia", correct: false }
+          { text: "Un número entero (int)", correct: false },
+          { text: "Un número de coma flotante (float)", correct: true },
+          { text: "Una cadena de caracteres (str)", correct: false }
         ],
-        explanation: "El Boxplot ilustra visualmente la mediana, los cuartiles Q1 y Q3, el rango intercuartílico (IQR) y destaca como puntos aislados a los valores que escapan a 1.5 veces el IQR (outliers)."
+        explanation: "En Python 3, la división simple `/` siempre devuelve `float` (`6.25`). La división entera con doble barra `25 // 4` devuelve `int` (`6`), y el módulo `25 % 4` devuelve el resto `1`."
       },
       {
         id: 10,
-        topic: "Medidas de Tendencia Central (Clase 11 y Devolución TP)",
-        question: "Ante una distribución muy asimétrica y con presencia de valores atípicos extremos, ¿qué medida de tendencia central resulta más representativa?",
+        topic: "Escaladores y Outliers: RobustScaler (Clase de Repaso)",
+        question: "¿Qué escalador se recomienda utilizar cuando el dataset presenta valores atípicos (outliers) extremos?",
         options: [
-          { text: "La Media aritmética", correct: false },
-          { text: "La Mediana", correct: true },
-          { text: "La Varianza", correct: false }
+          { text: "MinMaxScaler", correct: false },
+          { text: "StandardScaler", correct: false },
+          { text: "RobustScaler (escala mediante la mediana y el rango intercuartílico)", correct: true }
         ],
-        explanation: "La media se ve fuertemente distorsionada y arrastrada por los valores extremos. La mediana, al ser el valor central que divide la muestra en dos mitades del 50%, es una medida robusta frente a outliers."
+        explanation: "Confirmado en la diapositiva de escaladores del repaso: RobustScaler utiliza la mediana y el rango intercuartílico (IQR), haciéndolo robusto e inmune a la influencia de outliers extremos."
       }
     ];
 
@@ -687,7 +663,6 @@
       const q = questions[currentQuestionIndex];
       const container = document.getElementById("questionContainer");
 
-      // Update progress
       document.getElementById("progressText").innerText = `Pregunta ${currentQuestionIndex + 1} de ${questions.length}`;
       document.getElementById("progressBar").style.width = `${((currentQuestionIndex + 1) / questions.length) * 100}%`;
       document.getElementById("scoreCount").innerText = score;
@@ -741,7 +716,6 @@
         document.getElementById("scoreCount").innerText = score;
       }
 
-      // Visual styling for options
       q.options.forEach((opt, idx) => {
         const btn = document.getElementById(`opt-${idx}`);
         btn.disabled = true;
@@ -758,7 +732,6 @@
         }
       });
 
-      // Show explanation
       const expBox = document.getElementById("explanationBox");
       expBox.classList.remove("hidden");
       if (isCorrect) {
@@ -789,14 +762,10 @@
       document.getElementById("finalScoreNumber").innerText = `${score} / ${questions.length}`;
 
       let msg = "";
-      if (score === 10) {
-        msg = "¡Puntaje Perfecto! Tenés todos los conceptos clave de la cursada asimilados con precisión quirúrgica. ¡Vas por otro 10 en el parcial!";
-      } else if (score >= 8) {
-        msg = "¡Muy buen desempeño! Dominás la gran mayoría de los conceptos troncales. Pegale una repasada rápida al Machete para pulir esos detalles.";
-      } else if (score >= 6) {
-        msg = "Aprobado, pero con margen de mejora. Te recomendamos repasar especialmente la diferencia entre Encoders y los procesos de Machine Learning.";
+      if (score >= 7) {
+        msg = "¡Aprobado! Superaste los 7 puntos exigidos por la docente. ¡Vas con gran preparación al parcial presencial!";
       } else {
-        msg = "Atención: Te conviene leer detenidamente el Machete de Repaso y volver a intentar el simulador antes del examen.";
+        msg = "Atención: La materia exige un mínimo de 7 para aprobar. Te recomendamos revisar el Machete Rápido y el Repaso Completo.";
       }
       document.getElementById("finalFeedbackMsg").innerText = msg;
     }
@@ -817,7 +786,6 @@
       const viewMachete = document.getElementById("viewMachete");
       const viewCompleto = document.getElementById("viewCompleto");
 
-      // reset tabs
       [tabQuiz, tabMachete, tabCompleto].forEach(t => {
         t.className = "pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 transition-all shrink-0 font-semibold text-sm";
       });
@@ -849,7 +817,6 @@
       });
     }
 
-    // Init quiz
     renderQuestion();
   </script>
 </body>
