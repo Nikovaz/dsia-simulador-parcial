@@ -74,8 +74,15 @@
           <h1 class="text-sm sm:text-base font-extrabold text-white tracking-tight">Desarrollo de Sistemas de IA (DSIA)</h1>
         </div>
       </div>
-      <div class="text-xs font-mono text-slate-400 hidden sm:block">
-        Prof. Valeria Feito
+      <div class="flex items-center gap-2">
+        <button onclick="shareWhatsApp()" class="cursor-pointer flex items-center gap-1.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg transition-all shadow-sm shadow-emerald-900/40">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          <span class="hidden sm:inline">Compartir con compis</span>
+        </button>
+        <button onclick="copyShareLink()" id="btnCopy" class="cursor-pointer flex items-center gap-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition-all">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          <span id="copyText">Copiar Link</span>
+        </button>
       </div>
     </div>
   </header>
@@ -156,6 +163,31 @@
     <!-- VIEW 1: SIMULADOR DE PARCIAL (QUIZ)        -->
     <!-- ========================================== -->
     <div id="viewQuiz" class="space-y-6">
+
+            <!-- SELECTOR DE LAS 3 OPCIONES DE EXAMEN -->
+      <div class="glass-panel p-4 rounded-2xl border border-cyan-500/30 bg-slate-900/90 space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <span class="text-[11px] font-mono uppercase tracking-wider text-cyan-400 font-bold block">3 Opciones de Examen Disponibles (10 Preguntas c/u):</span>
+            <h3 class="text-sm sm:text-base font-extrabold text-white" id="currentExamTitle">Opción 1: Modelo A (Preguntas Oficiales y Repaso)</h3>
+          </div>
+          <div class="flex items-center gap-1.5 p-1 rounded-xl bg-slate-950 border border-slate-800 shrink-0">
+            <button onclick="selectExam(1)" id="btnExam1" class="cursor-pointer px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-cyan-500 text-slate-950 shadow-md">
+              Examen 1
+            </button>
+            <button onclick="selectExam(2)" id="btnExam2" class="cursor-pointer px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all">
+              Examen 2
+            </button>
+            <button onclick="selectExam(3)" id="btnExam3" class="cursor-pointer px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all">
+              Examen 3
+            </button>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-slate-400 pt-1 border-t border-slate-800/80">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="examSubtitle">Examen activo: 10 preguntas tomadas del audio en vivo de la clase de repaso y diapositivas clave.</span>
+        </div>
+      </div>
 
       <!-- Progress bar & Score indicator -->
       <div class="glass-panel p-4 rounded-xl flex items-center justify-between gap-4">
@@ -593,165 +625,695 @@
 
   <!-- JAVASCRIPT LOGIC -->
   <script>
-    const questions = [
+    const exams = {
+      1: {
+        title: "Opción 1: Modelo A (Preguntas Oficiales y Repaso)",
+        subtitle: "Examen activo: 10 preguntas tomadas del audio en vivo de la clase de repaso y diapositivas clave.",
+        questions: [
       {
-        id: 1,
-        topic: "Introducción y Definición de IA (Clase de Repaso)",
-        question: "¿Cuál es la definición formal de Inteligencia Artificial abordada en la cursada?",
-        options: [
-          { text: "Un hardware físico diseñado exclusivamente para reemplazar la fuerza motriz humana", correct: false },
-          { text: "Una disciplina de la informática orientada a crear sistemas que imitan la inteligencia humana y aprenden autónomamente", correct: true },
-          { text: "Un lenguaje de programación basado estrictamente en operaciones lógicas binarias", correct: false }
-        ],
-        explanation: "Confirmado textualmente por la profesora en la Clase de Repaso: 'De esto sí hay una pregunta seguro... La inteligencia artificial es una disciplina de la informática que se enfoca en crear sistemas y programas que pueden imitar la inteligencia humana mediante algoritmos para aprender de forma autónoma'."
+            "id": 1,
+            "topic": "Introducción y Definición de IA (Clase de Repaso)",
+            "question": "¿Cuál es la definición formal de Inteligencia Artificial abordada en la cursada?",
+            "options": [
+                  {
+                        "text": "Un hardware físico diseñado exclusivamente para reemplazar la fuerza motriz humana",
+                        "correct": false
+                  },
+                  {
+                        "text": "Una disciplina de la informática orientada a crear sistemas que imitan la inteligencia humana y aprenden autónomamente",
+                        "correct": true
+                  },
+                  {
+                        "text": "Un lenguaje de programación basado estrictamente en operaciones lógicas binarias",
+                        "correct": false
+                  }
+            ],
+            "explanation": "Confirmado textualmente por la profesora en la Clase de Repaso: 'De esto sí hay una pregunta seguro... La inteligencia artificial es una disciplina de la informática que se enfoca en crear sistemas y programas que pueden imitar la inteligencia humana mediante algoritmos para aprender de forma autónoma'."
       },
       {
-        id: 2,
-        topic: "Partición del Dataset (Pregunta Leída en Vivo)",
-        question: "¿Cuál es la proporción estándar del dataset que se suele reservar para entrenamiento (Train) y para prueba (Test)?",
-        options: [
-          { text: "Entrenamiento 50% / Prueba 50%", correct: false },
-          { text: "Entrenamiento 20% / Prueba 80%", correct: false },
-          { text: "Entrenamiento 80% / Prueba 20% (o 70% / 30%)", correct: true }
-        ],
-        explanation: "Pregunta que la profesora leyó de forma literal en la clase de repaso: se reserva la gran mayoría (80% o 70%) para que el modelo aprenda patrones en el entrenamiento, y el 20% o 30% restante para evaluar generalización sin contaminación de datos."
+            "id": 2,
+            "topic": "Partición del Dataset (Pregunta Leída en Vivo)",
+            "question": "¿Cuál es la proporción estándar del dataset que se suele reservar para entrenamiento (Train) y para prueba (Test)?",
+            "options": [
+                  {
+                        "text": "Entrenamiento 50% / Prueba 50%",
+                        "correct": false
+                  },
+                  {
+                        "text": "Entrenamiento 20% / Prueba 80%",
+                        "correct": false
+                  },
+                  {
+                        "text": "Entrenamiento 80% / Prueba 20% (o 70% / 30%)",
+                        "correct": true
+                  }
+            ],
+            "explanation": "Pregunta que la profesora leyó explícitamente en el repaso: la partición clásica es 80% Train y 20% Test (o 70/30) para garantizar suficiente volumen de aprendizaje y evaluación justa sin data leakage."
       },
       {
-        id: 3,
-        topic: "Técnicas de Análisis Univariado (Pregunta Leída en Vivo)",
-        question: "¿Cuáles son las técnicas estadísticas y gráficas más frecuentes para llevar a cabo un análisis univariado?",
-        options: [
-          { text: "Diagramas de dispersión (Scatter plot), coeficientes de correlación y regresión lineal simple", correct: false },
-          { text: "Distribución de frecuencias, medidas de tendencia central (media, mediana, moda), varianza, desvío estándar y cuartiles/boxplot", correct: true },
-          { text: "Análisis de componentes principales (PCA), análisis de conglomerados y dendrogramas", correct: false }
-        ],
-        explanation: "Pregunta textual leída por Feito en el repaso: el análisis univariado estudia una sola variable a la vez a través de frecuencias, tendencia central (media, mediana, moda) y dispersión (varianza, desvío, cuartiles, boxplots)."
+            "id": 3,
+            "topic": "Técnicas de Análisis Univariado (Pregunta Leída en Vivo)",
+            "question": "¿Cuáles son las técnicas estadísticas y gráficas más frecuentes para llevar a cabo un análisis univariado?",
+            "options": [
+                  {
+                        "text": "Diagramas de dispersión, matrices de correlación y regresión lineal simple",
+                        "correct": false
+                  },
+                  {
+                        "text": "Distribución de frecuencias, medidas de tendencia central (media, mediana, moda), medidas de dispersión (varianza, desvío) y cuartiles / boxplot",
+                        "correct": true
+                  },
+                  {
+                        "text": "Análisis de Componentes Principales (PCA), conglomerados y discriminante lineal",
+                        "correct": false
+                  }
+            ],
+            "explanation": "Pregunta textual dictada por Feito en el repaso: el análisis univariado examina una variable por vez mediante frecuencias, tendencia central (media, mediana, moda), dispersión (varianza, desvío) y gráficos como histogramas o diagramas de caja (boxplot)."
       },
       {
-        id: 4,
-        topic: "Procesos Fundamentales de Machine Learning (Clase 7 y Repaso)",
-        question: "¿Cuáles son los tres procesos fundamentales del Machine Learning explicados por la docente?",
-        options: [
-          { text: "Ingesta, Limpieza y Visualización de datos", correct: false },
-          { text: "Entrenamiento, Validación y Prueba (Test)", correct: true },
-          { text: "Recolección, Etiquetado y Despliegue en producción", correct: false }
-        ],
-        explanation: "Ratificado en las clases: 'Los tres procesos fundamentales del Machine Learning son entrenamiento, validación y prueba'."
+            "id": 4,
+            "topic": "Procesos Fundamentales de Machine Learning (Clase 7 y Repaso)",
+            "question": "¿Cuáles son los tres procesos fundamentales del Machine Learning explicados por la docente?",
+            "options": [
+                  {
+                        "text": "Recolección, Publicación y Venta",
+                        "correct": false
+                  },
+                  {
+                        "text": "Entrenamiento, Validación y Prueba (Test)",
+                        "correct": true
+                  },
+                  {
+                        "text": "Filtrado, Indexación y Renderizado",
+                        "correct": false
+                  }
+            ],
+            "explanation": "Resaltado en clase como pregunta de examen cantada: los tres procesos clave del ciclo de vida de un modelo de ML son Entrenamiento (Training), Validación (Validation) y Prueba (Testing)."
       },
       {
-        id: 5,
-        topic: "Matriz de Confusión y Diagnóstico Médico (Clase de Repaso)",
-        question: "En una matriz de confusión aplicada a un diagnóstico médico de una enfermedad grave, ¿cuál es el error más crítico y perjudicial?",
-        options: [
-          { text: "El Falso Negativo (determinar erróneamente que una persona enferma está sana)", correct: true },
-          { text: "El Falso Positivo (determinar erróneamente que una persona sana está enferma)", correct: false },
-          { text: "El Verdadero Positivo", correct: false }
-        ],
-        explanation: "Explicado con énfasis en la clase de repaso: un Falso Negativo manda al paciente enfermo a su casa sin tratamiento creyendo que está sano, lo que puede provocar su muerte. En salud, el Falso Negativo es el error más grave."
+            "id": 5,
+            "topic": "Matriz de Confusión y Diagnóstico Médico (Clase de Repaso)",
+            "question": "En una matriz de confusión aplicada a un diagnóstico médico de una enfermedad grave, ¿cuál es el error más crítico que se debe minimizar?",
+            "options": [
+                  {
+                        "text": "Falso Positivo (FP)",
+                        "correct": false
+                  },
+                  {
+                        "text": "Falso Negativo (FN)",
+                        "correct": true
+                  },
+                  {
+                        "text": "Verdadero Negativo (VN)",
+                        "correct": false
+                  }
+            ],
+            "explanation": "Feito remarcó en la diapositiva 62 que en diagnósticos de salud el Falso Negativo (FN) es el error más peligroso, ya que implica decirle a un paciente enfermo que está sano, privándolo de tratamiento oportuno."
       },
       {
-        id: 6,
-        topic: "Distancia Euclidiana (Clase 14 y Repaso)",
-        question: "¿Por qué los algoritmos basados en Distancia Euclidiana analizan exclusivamente datos numéricos continuos?",
-        options: [
-          { text: "Porque requiere operaciones aritméticas de cálculo geométrico (diferencias al cuadrado y raíces) que no pueden aplicarse sobre texto", correct: true },
-          { text: "Porque la distancia euclidiana descarta automáticamente los números impares", correct: false },
-          { text: "Porque fue diseñada exclusivamente para bases de datos no estructuradas", correct: false }
-        ],
-        explanation: "Mencionado en la clase de repaso: la distancia euclidiana calcula la separación espacial entre puntos mediante ecuaciones matemáticas. No se puede calcular distancias con palabras salvo que se hayan transformado previamente con encoders."
+            "id": 6,
+            "topic": "Distancia Euclidiana (Clase 14 y Repaso)",
+            "question": "¿Por qué los algoritmos basados en Distancia Euclidiana analizan exclusivamente variables cuantitativas (numéricas) continuas?",
+            "options": [
+                  {
+                        "text": "Porque requieren operaciones aritméticas algebraicas (restas al cuadrado y raíz cuadrada) sobre el espacio geométrico",
+                        "correct": true
+                  },
+                  {
+                        "text": "Porque las variables cualitativas consumen demasiada memoria RAM en el servidor",
+                        "correct": false
+                  },
+                  {
+                        "text": "Porque fue diseñada únicamente para procesar cadenas de texto alfanuméricas",
+                        "correct": false
+                  }
+            ],
+            "explanation": "La docente enfatizó en el repaso que la distancia euclidiana calcula la longitud geométrica entre dos puntos; por definición matemática, solo opera sobre datos cuantitativos numéricos ya que no es posible restar o elevar al cuadrado categorías de texto."
       },
       {
-        id: 7,
-        topic: "Encoders Categóricos (Clase 14 y Repaso)",
-        question: "¿Cuál es el encoder que transforma variables categóricas en números respetando un orden de jerarquía o prelación?",
-        options: [
-          { text: "One-Hot Encoder", correct: false },
-          { text: "Ordinal Encoder (o Label Encoder ordinal)", correct: true },
-          { text: "Binary Encoder", correct: false }
-        ],
-        explanation: "El Ordinal Encoder se aplica cuando existe un orden natural entre las categorías (ej. Primario < Secundario < Universitario). Si no hubiera orden, se utiliza One-Hot Encoding."
+            "id": 7,
+            "topic": "Encoders Categóricos (Clase 14 y Repaso)",
+            "question": "¿Cuál es el encoder que transforma variables categóricas en números respetando un orden de prelación o jerarquía intrínseco?",
+            "options": [
+                  {
+                        "text": "One-Hot Encoder (Dummy variables)",
+                        "correct": false
+                  },
+                  {
+                        "text": "Ordinal Encoder (o Label Encoder ordinal)",
+                        "correct": true
+                  },
+                  {
+                        "text": "Binary Encoder",
+                        "correct": false
+                  }
+            ],
+            "explanation": "El Ordinal Encoder asigna números enteros respetando una relación de orden natural (por ejemplo: Primario=1, Secundario=2, Universitario=3). One-Hot Encoder, en cambio, se usa para variables nominales sin jerarquía."
       },
       {
-        id: 8,
-        topic: "Naturaleza de los Datos (Clase 21 y Repaso)",
-        question: "¿Con qué tipo de datos trabaja fundamentalmente un algoritmo de Agrupamiento (Clustering)?",
-        options: [
-          { text: "Con datos NO etiquetados (sin variable target o resultado previo conocido)", correct: true },
-          { text: "Con datos numéricos obligatoriamente etiquetados por un experto", correct: false },
-          { text: "Únicamente con valores booleanos de verdadero y falso", correct: false }
-        ],
-        explanation: "La gran distinción explicada por la profesora: Regresión y Clasificación trabajan con datos etiquetados (tienen un target conocido). Agrupamiento trabaja con datos NO etiquetados buscando similitudes intrínsecas."
+            "id": 8,
+            "topic": "Naturaleza de los Datos (Clase 21 y Repaso)",
+            "question": "¿Con qué tipo de datos trabaja fundamentalmente un algoritmo de Agrupamiento (Clustering)?",
+            "options": [
+                  {
+                        "text": "Datos etiquetados con una variable target continua conocida",
+                        "correct": false
+                  },
+                  {
+                        "text": "Datos no etiquetados (sin variable objetivo previa)",
+                        "correct": true
+                  },
+                  {
+                        "text": "Exclusivamente datos de imágenes en formato RGB",
+                        "correct": false
+                  }
+            ],
+            "explanation": "El clustering (agrupamiento) pertenece al paradigma de Aprendizaje No Supervisado, por lo que opera con datos no etiquetados, descubriendo patrones ocultos y afinidades naturales entre las observaciones."
       },
       {
-        id: 9,
-        topic: "Operadores en Python (Clase 4 y Repaso)",
-        question: "¿Qué tipo de dato devuelve la operación de división simple `25 / 4` en Python 3?",
-        options: [
-          { text: "Un número entero (int)", correct: false },
-          { text: "Un número de coma flotante (float)", correct: true },
-          { text: "Una cadena de caracteres (str)", correct: false }
-        ],
-        explanation: "En Python 3, la división simple `/` siempre devuelve `float` (`6.25`). La división entera con doble barra `25 // 4` devuelve `int` (`6`), y el módulo `25 % 4` devuelve el resto `1`."
+            "id": 9,
+            "topic": "Operadores en Python (Clase 4 y Repaso)",
+            "question": "¿Qué tipo de dato devuelve la operación de división simple `25 / 4` en Python 3?",
+            "options": [
+                  {
+                        "text": "Entero (int)",
+                        "correct": false
+                  },
+                  {
+                        "text": "Flotante / Decimal (float)",
+                        "correct": true
+                  },
+                  {
+                        "text": "Cadena de caracteres (str)",
+                        "correct": false
+                  }
+            ],
+            "explanation": "Pregunta de examen de Python destacada en clase: el operador `/` siempre retorna un número de tipo float (en este caso `6.25`). La división entera que devuelve int es `//`."
       },
       {
-        id: 10,
-        topic: "Escaladores y Outliers: RobustScaler (Clase de Repaso)",
-        question: "¿Qué escalador se recomienda utilizar cuando el dataset presenta valores atípicos (outliers) extremos?",
-        options: [
-          { text: "MinMaxScaler", correct: false },
-          { text: "StandardScaler", correct: false },
-          { text: "RobustScaler (escala mediante la mediana y el rango intercuartílico)", correct: true }
-        ],
-        explanation: "Confirmado en la diapositiva de escaladores del repaso: RobustScaler utiliza la mediana y el rango intercuartílico (IQR), haciéndolo robusto e inmune a la influencia de outliers extremos."
+            "id": 10,
+            "topic": "Escaladores y Outliers: RobustScaler (Clase de Repaso)",
+            "question": "¿Qué escalador se recomienda utilizar cuando el dataset presenta valores atípicos (outliers) significativos?",
+            "options": [
+                  {
+                        "text": "StandardScaler (basado en media y desvío estándar)",
+                        "correct": false
+                  },
+                  {
+                        "text": "MinMaxScaler (basado en mínimo y máximo absolutos)",
+                        "correct": false
+                  },
+                  {
+                        "text": "RobustScaler (basado en la mediana y el rango intercuartílico IQR)",
+                        "correct": true
+                  }
+            ],
+            "explanation": "Diapositiva 53 del PDF oficial de repaso: RobustScaler es resistente a valores extremos porque resta la mediana y divide por el rango intercuartílico (IQR: Q3 - Q1), evitando que los outliers distorsionen la escala de las demás observaciones."
       }
-    ];
+]
+      },
+      2: {
+        title: "Opción 2: Modelo B (EDA, Métricas, Confusión y Encoders)",
+        subtitle: "Examen activo: 10 preguntas sobre One-Hot vs Ordinal, Outliers, Mediana vs Media y Desbalance de Clases.",
+        questions: [
+      {
+            "id": 1,
+            "topic": "Regresión vs Clasificación (Clase 21 y Repaso)",
+            "question": "¿Cuál es la diferencia fundamental en la variable objetivo (target) que predice un modelo de regresión frente a uno de clasificación?",
+            "options": [
+                  {
+                        "text": "La regresión predice valores cuantitativos continuos (numéricos), mientras que la clasificación predice clases cualitativas (categorías)",
+                        "correct": true
+                  },
+                  {
+                        "text": "La regresión solo admite variables booleanas y la clasificación variables complejas",
+                        "correct": false
+                  },
+                  {
+                        "text": "La clasificación predice series de tiempo y la regresión agrupa clusters sin etiquetas",
+                        "correct": false
+                  }
+            ],
+            "explanation": "Diferencia troncal de la cursada: Regresión = predecir números cuantitativos (precios, ingresos, temperaturas). Clasificación = predecir etiquetas cualitativas o categorías discretas (spam/no spam, cliente compra/no compra, tipo de producto)."
+      },
+      {
+            "id": 2,
+            "topic": "One-Hot Encoding (Clase 14 y Repaso)",
+            "question": "¿En qué caso se utiliza One-Hot Encoding y cuál es su principal efecto sobre el dataset?",
+            "options": [
+                  {
+                        "text": "Se utiliza para variables cualitativas nominales (sin orden) y genera una columna binaria (0/1) por cada categoría única",
+                        "correct": true
+                  },
+                  {
+                        "text": "Se utiliza solo para variables numéricas continuas para normalizarlas entre 0 y 1",
+                        "correct": false
+                  },
+                  {
+                        "text": "Se utiliza para ordenar jerárquicamente categorías de menor a mayor en una sola columna",
+                        "correct": false
+                  }
+            ],
+            "explanation": "One-Hot Encoding crea columnas ficticias (dummies) con 0 o 1 para cada categoría de una variable nominal (como 'Color': Rojo, Azul, Verde), evitando imponer un orden numérico arbitrario inexistente."
+      },
+      {
+            "id": 3,
+            "topic": "Paradigmas de Aprendizaje (Clase 24 y Repaso)",
+            "question": "¿Qué paradigma de aprendizaje supervisado o no supervisado utiliza respectivamente cada familia de algoritmos?",
+            "options": [
+                  {
+                        "text": "Regresión: Supervisado | Clasificación: Supervisado | Agrupamiento: No Supervisado",
+                        "correct": true
+                  },
+                  {
+                        "text": "Regresión: No Supervisado | Clasificación: Supervisado | Agrupamiento: Supervisado",
+                        "correct": false
+                  },
+                  {
+                        "text": "Todos los algoritmos de Machine Learning son exclusivamente Supervisados",
+                        "correct": false
+                  }
+            ],
+            "explanation": "Tanto la Regresión como la Clasificación requieren datos etiquetados con una respuesta conocida (Supervisado). El Agrupamiento (Clustering) busca estructuras intrínsecas sin etiquetas de salida (No Supervisado)."
+      },
+      {
+            "id": 4,
+            "topic": "Análisis Bivariado (Clase Repaso - Filmina 34)",
+            "question": "¿Qué combinación gráfica y estadística se utiliza habitualmente para analizar la relación entre dos variables cuantitativas continuas?",
+            "options": [
+                  {
+                        "text": "Diagrama de sectores circulares (torta) y Moda",
+                        "correct": false
+                  },
+                  {
+                        "text": "Diagrama de dispersión (Scatter Plot) y Coeficiente de correlación de Pearson",
+                        "correct": true
+                  },
+                  {
+                        "text": "Gráfico de barras apiladas y prueba de Chi-cuadrado",
+                        "correct": false
+                  }
+            ],
+            "explanation": "El análisis bivariado numérico-numérico examina la asociación lineal mediante diagramas de dispersión en el plano cartesiano y mide su intensidad con el coeficiente de correlación de Pearson (entre -1 y +1)."
+      },
+      {
+            "id": 5,
+            "topic": "Detección de Outliers (EDA y Repaso - Filmina 33)",
+            "question": "En un diagrama de caja (Boxplot), ¿cómo se identifican formalmente los valores atípicos (outliers)?",
+            "options": [
+                  {
+                        "text": "Cualquier valor que sea exactamente igual a la media aritmética",
+                        "correct": false
+                  },
+                  {
+                        "text": "Puntos que caen más allá de 1.5 veces el Rango Intercuartílico (IQR) por debajo de Q1 o por encima de Q3",
+                        "correct": true
+                  },
+                  {
+                        "text": "Observaciones que se repiten con frecuencia mayor al 50%",
+                        "correct": false
+                  }
+            ],
+            "explanation": "Regla clásica de Tukey: el rango intercuartílico es IQR = Q3 - Q1. Los bigotes del boxplot se extienden hasta Q1 - 1.5*IQR y Q3 + 1.5*IQR. Los puntos que sobrepasan estos límites se marcan como outliers."
+      },
+      {
+            "id": 6,
+            "topic": "Desbalance de Clases y Métricas (Clase 21 y Repaso)",
+            "question": "Si tenemos un dataset de fraude bancario fuertemente desbalanceado (99.5% operaciones legítimas y 0.5% fraudes), ¿por qué el Accuracy (exactitud) NO es una métrica adecuada?",
+            "options": [
+                  {
+                        "text": "Porque un modelo ingenuo que prediga siempre 'no fraude' tendrá 99.5% de accuracy pero no detectará ningún caso real de fraude",
+                        "correct": true
+                  },
+                  {
+                        "text": "Porque el Accuracy solo puede calcularse cuando el dataset tiene menos de 100 registros",
+                        "correct": false
+                  },
+                  {
+                        "text": "Porque el Accuracy se vuelve un número negativo ante clases desbalanceadas",
+                        "correct": false
+                  }
+            ],
+            "explanation": "En problemas desbalanceados, el Accuracy es engañoso: un modelo trivial que nunca detecte fraude tendrá un accuracy altísimo del 99.5%. Se debe evaluar con Precision, Recall, F1-Score o AUC-ROC."
+      },
+      {
+            "id": 7,
+            "topic": "Matriz de Confusión - Estructura (Clase Repaso - Filmina 62)",
+            "question": "En una matriz de confusión binaria estándar, ¿qué cuadrantes representan las predicciones exitosas (aciertos) del modelo?",
+            "options": [
+                  {
+                        "text": "Los cuadrantes de la diagonal principal: Verdaderos Positivos (VP) y Verdaderos Negativos (VN)",
+                        "correct": true
+                  },
+                  {
+                        "text": "Los cuadrantes de la diagonal secundaria: Falsos Positivos (FP) y Falsos Negativos (FN)",
+                        "correct": false
+                  },
+                  {
+                        "text": "Únicamente la columna de valores previstos negativos",
+                        "correct": false
+                  }
+            ],
+            "explanation": "La diagonal principal contiene los aciertos del modelo: observaciones positivas bien clasificadas (VP) y observaciones negativas bien clasificadas (VN). La diagonal secundaria contiene los errores (FP y FN)."
+      },
+      {
+            "id": 8,
+            "topic": "Tratamiento de Datos Faltantes (Limpieza de Datos)",
+            "question": "Si una variable numérica posee una distribución fuertemente asimétrica con valores extremos atípicos, ¿cuál es la medida estadística más recomendada para imputar los valores nulos?",
+            "options": [
+                  {
+                        "text": "La Media aritmética",
+                        "correct": false
+                  },
+                  {
+                        "text": "La Mediana",
+                        "correct": true
+                  },
+                  {
+                        "text": "El valor Máximo absoluto",
+                        "correct": false
+                  }
+            ],
+            "explanation": "La mediana es una medida de posición robusta que no se ve afectada por valores extremos o asimetrías severas, a diferencia de la media aritmética que se deja arrastrar por los outliers."
+      },
+      {
+            "id": 9,
+            "topic": "Operador División Entera en Python (Clase 4 y Repaso)",
+            "question": "¿Qué resultado y tipo de dato devuelve la operación `27 // 4` en Python 3?",
+            "options": [
+                  {
+                        "text": "6.75 de tipo float",
+                        "correct": false
+                  },
+                  {
+                        "text": "6 de tipo entero (int)",
+                        "correct": true
+                  },
+                  {
+                        "text": "3 de tipo entero (int)",
+                        "correct": false
+                  }
+            ],
+            "explanation": "El operador `//` realiza la división entera (floor division), descartando la parte decimal y devolviendo un entero `int` (en este caso 27 // 4 = 6)."
+      },
+      {
+            "id": 10,
+            "topic": "Gestión de Proyectos Secuenciales (Pregunta Leída por Feito)",
+            "question": "¿Cuál es la metodología de gestión de proyectos que se basa en un ciclo de vida estrictamente secuencial donde cada fase debe completarse antes de pasar a la siguiente?",
+            "options": [
+                  {
+                        "text": "Scrum / Ágil",
+                        "correct": false
+                  },
+                  {
+                        "text": "Metodología Cascada (Waterfall)",
+                        "correct": true
+                  },
+                  {
+                        "text": "Kanban",
+                        "correct": false
+                  }
+            ],
+            "explanation": "Pregunta de examen leída textualmente por la profesora Valeria Feito en el minuto 1:51: la metodología tradicional Cascada (Waterfall) opera en etapas fijas y consecutivas sin avanzar a la siguiente sin finalizar la previa."
+      }
+]
+      },
+      3: {
+        title: "Opción 3: Modelo C (Algoritmos, Distancias y Fórmulas)",
+        subtitle: "Examen activo: 10 preguntas sobre Agentes, K-Means, MinMaxScaler vs StandardScaler, Overfitting y Sistemas Expertos.",
+        questions: [
+      {
+            "id": 1,
+            "topic": "Sistemas de IA y Agentes (Clase Repaso - Filmina 9)",
+            "question": "Según la taxonomía de sistemas de IA explicada por Feito, ¿qué define a un Agente de IA?",
+            "options": [
+                  {
+                        "text": "Un sistema capaz de percibir su entorno a través de sensores, procesar información y tomar decisiones/acciones autónomas para cumplir un objetivo",
+                        "correct": true
+                  },
+                  {
+                        "text": "Un simple chatbot que solo responde preguntas frecuentes a partir de un menú estático pregrabado",
+                        "correct": false
+                  },
+                  {
+                        "text": "Un procesador físico multicore que no posee conexión de software",
+                        "correct": false
+                  }
+            ],
+            "explanation": "Filmina 9 y audio de repaso: un Agente de IA percibe el entorno, procesa y toma decisiones autónomas para ejecutar acciones, a diferencia de un simple bot de respuestas estáticas o enlatadas."
+      },
+      {
+            "id": 2,
+            "topic": "Escalado: MinMaxScaler vs StandardScaler (Clase Repaso - Filminas 51 y 52)",
+            "question": "¿Cuál es la diferencia técnica principal entre MinMaxScaler y StandardScaler en Scikit-Learn?",
+            "options": [
+                  {
+                        "text": "MinMaxScaler acota los datos a un rango cerrado (típicamente [0, 1]), mientras que StandardScaler transforma los datos para tener media 0 y desvío estándar 1",
+                        "correct": true
+                  },
+                  {
+                        "text": "MinMaxScaler solo sirve para texto y StandardScaler para números enteros",
+                        "correct": false
+                  },
+                  {
+                        "text": "StandardScaler elimina registros nulos y MinMaxScaler los reemplaza por la moda",
+                        "correct": false
+                  }
+            ],
+            "explanation": "Filminas 51 y 52: MinMaxScaler transforma los valores proporcionalmente para que el mínimo sea 0 y el máximo 1. StandardScaler (Z-score) centra la distribución restando la media y dividiendo por la desviación estándar."
+      },
+      {
+            "id": 3,
+            "topic": "Fuga de Información (Data Leakage)",
+            "question": "¿Por qué es fundamental realizar la partición Train/Test ANTES de ajustar escaladores o imputadores de nulos?",
+            "options": [
+                  {
+                        "text": "Para evitar Data Leakage (fuga de datos), garantizando que los parámetros del conjunto de prueba no contaminen el aprendizaje del modelo",
+                        "correct": true
+                  },
+                  {
+                        "text": "Porque Scikit-Learn arroja error de sintaxis si se hace en otro orden",
+                        "correct": false
+                  },
+                  {
+                        "text": "Porque el conjunto de prueba se descarta y no se utiliza nunca",
+                        "correct": false
+                  }
+            ],
+            "explanation": "Si ajustamos escaladores (fit) sobre todo el dataset antes de separar, la media y escala del conjunto de prueba se filtran al entrenamiento (Data Leakage), arrojando métricas de evaluación artificialmente optimistas."
+      },
+      {
+            "id": 4,
+            "topic": "Costos de Error: Falso Positivo vs Falso Negativo",
+            "question": "En un filtro clasificador de correos SPAM, ¿cuál de los siguientes errores resulta generalmente más costoso o perjudicial para el usuario?",
+            "options": [
+                  {
+                        "text": "Un Falso Positivo: clasificar erróneamente un correo legítimo e importante de trabajo como spam y enviarlo a la papelera",
+                        "correct": true
+                  },
+                  {
+                        "text": "Un Falso Negativo: dejar pasar un correo spam publicitario no deseado a la bandeja de entrada",
+                        "correct": false
+                  },
+                  {
+                        "text": "Un Verdadero Positivo: detectar correctamente el correo spam",
+                        "correct": false
+                  }
+            ],
+            "explanation": "En spam, que un correo basura se filtre al buzón principal (FN) es una molestia menor, pero que un correo crucial de un cliente o familiar sea descartado como spam (FP) puede generar pérdidas críticas."
+      },
+      {
+            "id": 5,
+            "topic": "Tipos de Variables: Nominales vs Ordinales (EDA)",
+            "question": "¿Cuál de las siguientes variables cualitativas corresponde a una variable ordinal?",
+            "options": [
+                  {
+                        "text": "Nivel de satisfacción del cliente: 'Bajo', 'Medio', 'Alto'",
+                        "correct": true
+                  },
+                  {
+                        "text": "Nacionalidad: 'Argentina', 'Brasil', 'Uruguay'",
+                        "correct": false
+                  },
+                  {
+                        "text": "Género musical preferido: 'Rock', 'Jazz', 'Clásica'",
+                        "correct": false
+                  }
+            ],
+            "explanation": "Las variables cualitativas ordinales poseen un orden intrínseco o jerarquía clara ('Bajo' < 'Medio' < 'Alto'), mientras que nacionalidad o género musical son nominales sin ordenación lógica."
+      },
+      {
+            "id": 6,
+            "topic": "Agrupamiento con K-Means (Clustering)",
+            "question": "¿Qué hiperparámetro requiere fijar obligatoriamente el usuario antes de ejecutar el algoritmo K-Means?",
+            "options": [
+                  {
+                        "text": "El número de grupos o clusters 'k' a encontrar a priori",
+                        "correct": true
+                  },
+                  {
+                        "text": "La ecuación de la recta de regresión lineal",
+                        "correct": false
+                  },
+                  {
+                        "text": "El umbral de probabilidad de corte bayesiano",
+                        "correct": false
+                  }
+            ],
+            "explanation": "K-Means necesita que definamos previamente cuántos clusters ('k') debe formar. Para estimar el 'k' óptimo se suele recurrir a métodos empíricos como el Método del Codo (Elbow Method) o el Coeficiente de Silueta."
+      },
+      {
+            "id": 7,
+            "topic": "Operador Módulo `%` en Python (Clase 4)",
+            "question": "¿Qué valor exacto devuelve la operación `29 % 5` en Python?",
+            "options": [
+                  {
+                        "text": "4 (el resto o residuo de la división entera)",
+                        "correct": true
+                  },
+                  {
+                        "text": "5.8",
+                        "correct": false
+                  },
+                  {
+                        "text": "5",
+                        "correct": false
+                  }
+            ],
+            "explanation": "El operador módulo `%` calcula el residuo de la división entera entre dos números: 29 dividido 5 es 5 con un resto de 4 (5 * 5 = 25; 29 - 25 = 4)."
+      },
+      {
+            "id": 8,
+            "topic": "Sobreajuste (Overfitting) en Machine Learning",
+            "question": "¿Cómo se detecta técnicamente que un modelo de Machine Learning sufre de sobreajuste (overfitting)?",
+            "options": [
+                  {
+                        "text": "Obtiene un rendimiento casi perfecto en datos de entrenamiento, pero decae severamente al evaluar sobre datos nuevos de prueba (Test)",
+                        "correct": true
+                  },
+                  {
+                        "text": "Tarda exactamente 0 segundos en procesar el dataset",
+                        "correct": false
+                  },
+                  {
+                        "text": "Obtiene exactamente el mismo error elevado tanto en entrenamiento como en prueba",
+                        "correct": false
+                  }
+            ],
+            "explanation": "El sobreajuste (overfitting) ocurre cuando el modelo 'memoriza' el ruido y particularidades del conjunto de entrenamiento en lugar de aprender el patrón general, perdiendo capacidad de generalización ante datos no vistos."
+      },
+      {
+            "id": 9,
+            "topic": "Visualización Univariada (Clase Repaso - Filmina 33)",
+            "question": "¿Cuál es el gráfico estadístico estándar más adecuado para visualizar la forma de la distribución y dispersión de una variable cuantitativa continua?",
+            "options": [
+                  {
+                        "text": "El Histograma",
+                        "correct": true
+                  },
+                  {
+                        "text": "El Gráfico de Torta / Pastel",
+                        "correct": false
+                  },
+                  {
+                        "text": "El Diagrama de Sankey",
+                        "correct": false
+                  }
+            ],
+            "explanation": "Filmina 33: el histograma agrupa los valores continuos en intervalos (bins) y representa con barras la frecuencia de observaciones en cada rango, permitiendo apreciar simetría, sesgo y concentración."
+      },
+      {
+            "id": 10,
+            "topic": "Sistemas Expertos (Clase Repaso - Filmina 10)",
+            "question": "En la historia y fundamentos de la IA, ¿en qué se basan esencialmente los Sistemas Expertos?",
+            "options": [
+                  {
+                        "text": "En una base de conocimientos específica y un motor de inferencia que aplica reglas lógicas 'si-entonces' (if-then) estructuradas por humanos",
+                        "correct": true
+                  },
+                  {
+                        "text": "En redes neuronales profundas con miles de millones de pesos aprendidos por gradiente descendente",
+                        "correct": false
+                  },
+                  {
+                        "text": "En sensores mecánicos que operan sin ningún componente de software",
+                        "correct": false
+                  }
+            ],
+            "explanation": "Filmina 10 y audio de repaso: los Sistemas Expertos reproducen el conocimiento de un experto humano en áreas específicas (como diagnóstico médico clásico) mediante una base de hechos y un motor de inferencia basado en reglas formales."
+      }
+]
+      }
+    };
 
+    let currentExamId = 1;
+    let questions = exams[1].questions;
     let currentQuestionIndex = 0;
     let score = 0;
     let answered = false;
+
+    function selectExam(examId) {
+      currentExamId = examId;
+      questions = exams[examId].questions;
+      currentQuestionIndex = 0;
+      score = 0;
+      answered = false;
+
+      // Update badge and texts
+      document.getElementById("currentExamTitle").innerText = exams[examId].title;
+      document.getElementById("examSubtitle").innerText = exams[examId].subtitle;
+
+      // Update button styles
+      [1, 2, 3].forEach(id => {
+        const btn = document.getElementById("btnExam" + id);
+        if (id === examId) {
+          btn.className = "cursor-pointer px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-cyan-500 text-slate-950 shadow-md";
+        } else {
+          btn.className = "cursor-pointer px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all";
+        }
+      });
+
+      document.getElementById("finalScoreCard").classList.add("hidden");
+      document.getElementById("questionContainer").classList.remove("hidden");
+      renderQuestion();
+    }
 
     function renderQuestion() {
       answered = false;
       const q = questions[currentQuestionIndex];
       const container = document.getElementById("questionContainer");
 
-      document.getElementById("progressText").innerText = `Pregunta ${currentQuestionIndex + 1} de ${questions.length}`;
-      document.getElementById("progressBar").style.width = `${((currentQuestionIndex + 1) / questions.length) * 100}%`;
+      document.getElementById("progressText").innerText = "Pregunta " + (currentQuestionIndex + 1) + " de " + questions.length + " (Examen " + currentExamId + ")";
+      document.getElementById("progressBar").style.width = (((currentQuestionIndex + 1) / questions.length) * 100) + "%";
       document.getElementById("scoreCount").innerText = score;
 
-      let html = `
-        <div class="space-y-4">
-          <div class="flex items-center justify-between text-xs font-mono text-cyan-400">
-            <span>TEMA: ${q.topic}</span>
-            <span>PREGUNTA #${q.id}</span>
-          </div>
-          <h3 class="text-lg sm:text-xl font-bold text-white tracking-tight">${q.question}</h3>
-          <div class="space-y-2.5 pt-2">
-      `;
+      let html = '<div class="space-y-4">' +
+        '<div class="flex items-center justify-between text-xs font-mono text-cyan-400 flex-wrap gap-2">' +
+          '<span>TEMA: ' + q.topic + '</span>' +
+          '<span class="bg-cyan-950/60 border border-cyan-800/60 px-2 py-0.5 rounded text-[11px]">EXAMEN #' + currentExamId + ' • PREGUNTA #' + q.id + '</span>' +
+        '</div>' +
+        '<h3 class="text-lg sm:text-xl font-bold text-white tracking-tight">' + q.question + '</h3>' +
+        '<div class="space-y-2.5 pt-2">';
 
       q.options.forEach((opt, idx) => {
         const letter = String.fromCharCode(65 + idx);
-        html += `
-          <button onclick="handleAnswer(${idx})" id="opt-${idx}" class="w-full text-left p-4 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 hover:bg-slate-850 transition-all flex items-start gap-3 group">
-            <span class="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 font-mono text-xs flex items-center justify-center shrink-0 group-hover:bg-cyan-500 group-hover:text-slate-950 font-bold transition-all">
-              ${letter}
-            </span>
-            <span class="text-sm text-slate-200 group-hover:text-white pt-0.5">${opt.text}</span>
-          </button>
-        `;
+        html += '<button onclick="handleAnswer(' + idx + ')" id="opt-' + idx + '" class="cursor-pointer w-full text-left p-4 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 hover:bg-slate-850 transition-all flex items-start gap-3 group">' +
+          '<span class="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 font-mono text-xs flex items-center justify-center shrink-0 group-hover:bg-cyan-500 group-hover:text-slate-950 font-bold transition-all">' +
+            letter +
+          '</span>' +
+          '<span class="text-sm text-slate-200 group-hover:text-white pt-0.5 leading-relaxed">' + opt.text + '</span>' +
+        '</button>';
       });
 
-      html += `
-          </div>
-          <div id="explanationBox" class="hidden p-4 rounded-xl text-xs sm:text-sm mt-4 border transition-all"></div>
-          <div id="nextBtnContainer" class="hidden pt-4 flex justify-end">
-            <button onclick="nextQuestion()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl transition-all shadow-lg shadow-cyan-500/20 text-sm flex items-center gap-2">
-              <span>Siguiente Pregunta</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-            </button>
-          </div>
-        </div>
-      `;
+      html += '</div>' +
+        '<div id="explanationBox" class="hidden p-4 rounded-xl text-xs sm:text-sm mt-4 border transition-all"></div>' +
+        '<div id="nextBtnContainer" class="hidden pt-4 flex justify-end">' +
+          '<button onclick="nextQuestion()" class="cursor-pointer bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl transition-all shadow-lg shadow-cyan-500/20 text-sm flex items-center gap-2">' +
+            '<span>Siguiente Pregunta</span>' +
+            '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>' +
+          '</button>' +
+        '</div>' +
+      '</div>';
 
       container.innerHTML = html;
     }
@@ -769,7 +1331,7 @@
       }
 
       q.options.forEach((opt, idx) => {
-        const btn = document.getElementById(`opt-${idx}`);
+        const btn = document.getElementById("opt-" + idx);
         btn.disabled = true;
         btn.classList.remove("hover:border-cyan-500/50", "hover:bg-slate-850");
 
@@ -788,10 +1350,10 @@
       expBox.classList.remove("hidden");
       if (isCorrect) {
         expBox.className = "p-4 rounded-xl text-xs sm:text-sm mt-4 border bg-emerald-950/40 border-emerald-500/40 text-emerald-200 block";
-        expBox.innerHTML = `<strong>¡Excelente! Respuesta correcta.</strong><br>${q.explanation}`;
+        expBox.innerHTML = "<strong>✅ ¡Excelente! Respuesta correcta.</strong><br>" + q.explanation;
       } else {
         expBox.className = "p-4 rounded-xl text-xs sm:text-sm mt-4 border bg-rose-950/40 border-rose-500/40 text-rose-200 block";
-        expBox.innerHTML = `<strong>Respuesta incorrecta.</strong><br>${q.explanation}`;
+        expBox.innerHTML = "<strong>❌ Respuesta incorrecta.</strong><br>" + q.explanation;
       }
 
       document.getElementById("nextBtnContainer").classList.remove("hidden");
@@ -810,16 +1372,16 @@
       document.getElementById("questionContainer").classList.add("hidden");
       const finalCard = document.getElementById("finalScoreCard");
       finalCard.classList.remove("hidden");
+      document.getElementById("finalScoreNumber").innerText = score + " / " + questions.length;
 
-      document.getElementById("finalScoreNumber").innerText = `${score} / ${questions.length}`;
-
-      let msg = "";
+      const msg = document.getElementById("finalFeedbackMsg");
       if (score >= 7) {
-        msg = "¡Aprobado! Superaste los 7 puntos exigidos por la docente. ¡Vas con gran preparación al parcial presencial!";
+        msg.className = "text-emerald-400 font-semibold";
+        msg.innerHTML = "🎉 ¡APROBADO! Lograste " + score + " de 10. Cumplís con la nota mínima (7) requerida por la profesora Valeria Feito. ¡Probá ahora con otra de las opciones de examen o repasá el machete!";
       } else {
-        msg = "Atención: La materia exige un mínimo de 7 para aprobar. Te recomendamos revisar el Machete Rápido y el Repaso Completo.";
+        msg.className = "text-rose-400 font-semibold";
+        msg.innerHTML = "⚠️ Necesitás reforzar: obtuviste " + score + " de 10. Recordá que en el IFTS 24 se aprueba con 7. Te recomendamos repasar el Machete Rápido o la guía completa y volver a intentarlo.";
       }
-      document.getElementById("finalFeedbackMsg").innerText = msg;
     }
 
     function resetQuiz() {
@@ -839,37 +1401,58 @@
       const viewCompleto = document.getElementById("viewCompleto");
 
       [tabQuiz, tabMachete, tabCompleto].forEach(t => {
-        t.className = "pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 transition-all shrink-0 font-semibold text-sm";
+        t.className = "cursor-pointer pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 transition-all shrink-0 font-semibold text-sm";
       });
       [viewQuiz, viewMachete, viewCompleto].forEach(v => v.classList.add("hidden"));
 
       if (tab === "quiz") {
-        tabQuiz.className = "pb-3 border-b-2 border-cyan-400 text-cyan-300 flex items-center gap-2 transition-all shrink-0 font-semibold text-sm";
+        tabQuiz.className = "cursor-pointer pb-3 border-b-2 border-cyan-400 text-cyan-300 flex items-center gap-2 transition-all shrink-0 font-semibold text-sm";
         viewQuiz.classList.remove("hidden");
       } else if (tab === "machete") {
-        tabMachete.className = "pb-3 border-b-2 border-cyan-400 text-cyan-300 flex items-center gap-2 transition-all shrink-0 font-semibold text-sm";
+        tabMachete.className = "cursor-pointer pb-3 border-b-2 border-cyan-400 text-cyan-300 flex items-center gap-2 transition-all shrink-0 font-semibold text-sm";
         viewMachete.classList.remove("hidden");
       } else if (tab === "completo") {
-        tabCompleto.className = "pb-3 border-b-2 border-cyan-400 text-cyan-300 flex items-center gap-2 transition-all shrink-0 font-semibold text-sm";
+        tabCompleto.className = "cursor-pointer pb-3 border-b-2 border-cyan-400 text-cyan-300 flex items-center gap-2 transition-all shrink-0 font-semibold text-sm";
         viewCompleto.classList.remove("hidden");
       }
     }
 
     function filterTopics() {
-      const q = document.getElementById("searchInput").value.toLowerCase();
-      const items = document.querySelectorAll(".topic-item");
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      const items = document.querySelectorAll("#topicsList details");
+
       items.forEach(item => {
         const text = item.innerText.toLowerCase();
-        if (text.includes(q)) {
-          item.style.display = "";
-          if (q.length > 2) item.open = true;
+        if (text.includes(query)) {
+          item.classList.remove("hidden");
         } else {
-          item.style.display = "none";
+          item.classList.add("hidden");
         }
       });
     }
 
+    function shareWhatsApp() {
+      const text = encodeURIComponent("🚀 ¡Che! Encontré este Simulador de Parcial y Guía de Repaso de DSIA con 3 Opciones de Examen (IFTS 24 - Prof. Valeria Feito): https://nikovaz.github.io/dsia-simulador-parcial/");
+      window.open("https://api.whatsapp.com/send?text=" + text, "_blank");
+    }
+
+    function copyShareLink() {
+      const url = "https://nikovaz.github.io/dsia-simulador-parcial/";
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => {
+          const btn = document.getElementById("copyText");
+          btn.innerText = "¡Copiado!";
+          setTimeout(() => { btn.innerText = "Copiar Link"; }, 2000);
+        }).catch(() => {
+          prompt("Copiá el enlace:", url);
+        });
+      } else {
+        prompt("Copiá el enlace:", url);
+      }
+    }
+
+    // Iniciar examen 1 al cargar
     renderQuestion();
-  </script>
+</script>
 </body>
 </html>
